@@ -15,7 +15,7 @@
 <body>
     <!-- Tela de Cadastro (Sign Up) -->
     <div class="screen signup-screen">
-        <a href="#voltar" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="http://localhost:8080/project/backEndWe/workease/index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
