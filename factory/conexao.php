@@ -1,14 +1,16 @@
 <?php
-$host = "mysql.railway.internal";   // Host do banco de dados
-$user = "root";                     // Usuário
-$pass = "EdcnBqDA1SPVWcakrdObyimOnecOIrLI";  // Senha
-$bd   = "railway";                  // Nome do banco de dados
+$host = "turntable.proxy.rlwy.net";
+$user = "root";
+$pass = "XlMJWtluJUkgYTVvZFoUuOljSSsILboG";
+$bd   = "railway";
+$port = 52519;
 
-$mysqli = new mysqli($host, $user, $pass, $bd);
+$mysqli = new mysqli($host, $user, $pass, $bd, $port); 
 
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
+} else {
+    echo "Banco Conectado com sucesso!";
 }
 
-echo "Conectado com sucesso ao banco de dados!";
 ?>
