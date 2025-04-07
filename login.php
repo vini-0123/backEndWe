@@ -43,7 +43,7 @@
 
                 <p class="separator">ou</p>
 
-                <a href="#linkedin-login" class="btn btn-social">
+                <a href="#linkedin-login" class="btn-social">
                     Entrar com <i class="fab fa-linkedin"></i>
                 </a>
             </form>

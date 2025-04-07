@@ -1,13 +1,11 @@
 <?php
-$host = "mysql.railway.internal"; // Substitua pelo host do seu banco de dados no Railway
-$user = "root";             // Substitua pelo seu nome de usuário
-$pass = "EdcnBqDAlSPVWcakrdObyimOnecOIrLI";         // Substitua pela sua senha
-$bd = "railway";           // Substitua pelo nome do seu banco de dados
+$host = "mysql.railway.internal";   // Host do banco de dados
+$user = "root";                     // Usuário
+$pass = "EdcnBqDA1SPVWcakrdObyimOnecOIrLI";  // Senha
+$bd   = "railway";                  // Nome do banco de dados
 
-// Cria a conexão com o banco de dados
 $mysqli = new mysqli($host, $user, $pass, $bd);
 
-// Verifica se houve erro na conexão
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }

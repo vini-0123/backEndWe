@@ -72,6 +72,7 @@ body {
     width: 100%;
     max-width: 420px; /* Max width for the form */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    height: 453px
 }
 
 .form-container h2 {
@@ -216,16 +217,15 @@ input::placeholder {
 .separator {
     font-size: 0.9rem;
     color: #c0c0c0;
-    margin: 15px 0; /* Space around 'or' */
+    margin-top: 45px;
+    margin-bottom: 15px; 
     text-transform: lowercase;
     font-family: 'Poppins', sans-serif;
 }
 
 /* Social Login Button */
 .btn-social {
-    background-color: #f8f9fa; /* Light background */
-    color: #555; /* Darker text */
-    border: 1px solid #d1d1d1; /* Subtle border */
+    color: #ffffff; /* Darker text */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -234,12 +234,8 @@ input::placeholder {
 }
 
 .btn-social .fa-linkedin {
-    color: #0e76a8; /* LinkedIn blue */
+    color: #ffffff; /* LinkedIn blue */
     font-size: 1.3rem;
-}
-
-.btn-social:hover {
-    background-color: #e9ecef; /* Slightly darker on hover */
 }
 
 /* Extra Link (Sign up link on Login page) */
