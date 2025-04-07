@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <!-- Tela de Cadastro (Sign Up) -->
+    <div class="screen signup-screen">
+        <a href="#voltar" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <h1 class="logo">WorkEase</h1>
+
+        <div class="form-container">
+            <form action="#">
+                <h2>Cadastre-se</h2>
+
+                <div class="input-group">
+                    <input type="text" id="company-name" name="company-name" placeholder="Nome da empresa" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="signup-email" name="signup-email" placeholder="Email" required>
+                </div>
+
+                <div class="input-group password-wrapper">
+                    <input type="password" id="signup-password" name="signup-password" placeholder="Senha" required>
+                    <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+                <p class="separator">ou</p>
+
+                <a href="#linkedin-signup" class="btn btn-social">
+                    Cadastrar com <i class="fab fa-linkedin"></i>
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
