@@ -46,10 +46,6 @@
                 <a href="#linkedin-login" class="btn btn-social">
                     Entrar com <i class="fab fa-linkedin"></i>
                 </a>
-       
-                <a href="#google-login" class="btn btn-social">
-                    Entrar com <i class="fab fa-google"></i>
-                </a>
             </form>
         </div>
     </div>
