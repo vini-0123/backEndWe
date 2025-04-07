@@ -1,0 +1,439 @@
+/* Importação de Fonte (Exemplo: Inter do Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ----- Variáveis de Cor ----- */
+:root {
+    --navy-dark: #0A192F;      /* Azul Marinho Principal (Fundo Sidebar, Texto Escuro) */
+    --navy-medium: #1E3A5F;   /* Azul Marinho Médio (Hover, Fundos secundários) */
+    --cyan-highlight: #64FFDA;  /* Ciano Destaque (CTAs, Gráficos, Números) */
+    --cyan-text-on-dark: #64FFDA; /* Ciano para texto sobre fundo escuro */
+    --cyan-hover: #52d9bc;      /* Ciano para hover */
+    --bg-main: #F0F4F8;         /* Fundo da Área de Conteúdo (Cinza muito claro) */
+    --bg-card: #FFFFFF;         /* Fundo dos Cards */
+    --text-primary: #0A192F;     /* Texto principal sobre fundo claro */
+    --text-secondary: #8892B0;  /* Texto secundário, legendas */
+    --text-on-dark: #CCD6F6;    /* Texto principal sobre fundo escuro (Navy) */
+    --text-on-cyan: #0A192F;    /* Texto sobre o botão Ciano */
+    --border-color: #E2E8F0;     /* Cor de bordas sutis */
+    --shadow-color: rgba(10, 25, 47, 0.1); /* Sombra sutil */
+    --alert-color: #ffcc00; /* Amarelo para alertas */
+}
+
+/* ----- Reset Básico e Padrões ----- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ----- Layout Principal ----- */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--navy-dark);
+    color: var(--text-on-dark);
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease; /* Para possível recolhimento */
+}
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: var(--bg-card);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.content {
+    padding: 30px;
+    flex: 1;
+    overflow-y: auto; /* Para permitir rolagem se o conteúdo for grande */
+}
+
+/* ----- Sidebar ----- */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    margin-right: 10px;
+    color: var(--cyan-highlight);
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--cyan-highlight);
+}
+
+.menu ul li {
+    margin-bottom: 5px;
+}
+
+.menu ul li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 6px;
+    color: var(--text-on-dark);
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.menu ul li a .icon {
+     margin-right: 15px;
+     font-size: 1.2rem; /* Ajuste o tamanho se usar ícones de fonte */
+     width: 20px; /* Garante alinhamento */
+     text-align: center;
+     color: var(--text-secondary); /* Cor padrão do ícone */
+}
+
+
+.menu ul li a:hover {
+    background-color: var(--navy-medium);
+    color: #FFF; /* Texto mais brilhante no hover */
+}
+.menu ul li a:hover .icon {
+    color: var(--cyan-highlight); /* Cor do ícone no hover */
+}
+
+
+.menu ul li.active a {
+    background-color: var(--navy-medium);
+    color: var(--cyan-highlight);
+    font-weight: 600;
+}
+
+.menu ul li.active a .icon {
+    color: var(--cyan-highlight); /* Ícone ativo também em ciano */
+}
+
+
+/* ----- Header ----- */
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px 0 0 4px;
+    min-width: 250px;
+    font-size: 0.9rem;
+}
+
+.search-bar button {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-left: none;
+    background-color: var(--bg-main);
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.notifications {
+    position: relative;
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+}
+
+.notifications .badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.username {
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cyan-highlight);
+}
+
+/* ----- Content Area ----- */
+.content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--navy-dark);
+    font-weight: 600;
+}
+
+/* ----- KPI Cards ----- */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(10, 25, 47, 0.15);
+}
+
+.kpi-card .card-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+    padding: 10px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.kpi-card .value-icon {
+     background-color: rgba(100, 255, 218, 0.1); /* Fundo Ciano Transparente */
+     color: var(--cyan-highlight);
+}
+.kpi-card .alert-icon {
+     background-color: rgba(255, 204, 0, 0.1); /* Fundo Amarelo Transparente */
+     color: var(--alert-color);
+}
+.kpi-card:not(.alert) .card-icon:not(.value-icon) { /* Ícones padrão */
+     background-color: rgba(30, 58, 95, 0.1); /* Fundo Navy Transparente */
+     color: var(--navy-medium);
+}
+
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.card-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--navy-dark);
+}
+.kpi-card.alert .card-value { /* Valor destacado em Ciano para alerta */
+    color: var(--alert-color);
+}
+
+
+/* ----- Widgets Grid ----- */
+.widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.widget-card {
+    background-color: var(--bg-card);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+.widget-card.chart-card {
+    grid-column: span 2; /* Fazer o gráfico ocupar mais espaço se possível */
+}
+@media (max-width: 992px) {
+    .widget-card.chart-card {
+        grid-column: span 1;
+    }
+}
+
+.widget-card h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--navy-dark);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+/* Tabela */
+.table-responsive {
+    overflow-x: auto; /* Para tabelas largas em telas menores */
+}
+
+.widget-card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.widget-card th,
+.widget-card td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.widget-card thead th {
+    background-color: var(--navy-dark);
+    color: var(--text-on-dark);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.widget-card tbody tr:hover {
+    background-color: var(--bg-main);
+}
+
+.widget-card tbody td.low-stock-value {
+    color: var(--alert-color); /* Destaque para quantidade baixa */
+    font-weight: 600;
+}
+
+.btn-action {
+    background-color: var(--cyan-highlight);
+    color: var(--text-on-cyan);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: var(--cyan-hover);
+}
+
+/* Lista de Atividades */
+.activity-list {
+    max-height: 300px; /* Limita altura e adiciona scroll se necessário */
+    overflow-y: auto;
+}
+
+.activity-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+.activity-list li:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.activity-icon.entrada { background-color: rgba(100, 255, 218, 0.2); color: var(--cyan-highlight); }
+.activity-icon.saida { background-color: rgba(255, 100, 100, 0.1); color: #ff6464; } /* Exemplo de cor para saída */
+.activity-icon.ajuste { background-color: rgba(30, 58, 95, 0.1); color: var(--navy-medium); }
+
+.activity-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-desc {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.activity-time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ----- Responsividade Básica ----- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px; /* Exemplo de sidebar recolhida */
+    }
+    .sidebar .logo-text, .sidebar .menu ul li a span:not(.icon) {
+        display: none; /* Esconde texto, mantém ícones */
+    }
+     .sidebar .logo-icon { margin-right: 0; }
+     .sidebar .menu ul li a { justify-content: center; }
+     .sidebar .menu ul li a .icon { margin-right: 0; }
+
+
+    .header {
+        padding: 10px 15px;
+    }
+     .search-bar input[type="text"] { min-width: 150px; }
+     .username { display: none; } /* Esconder nome em telas pequenas */
+
+    .content {
+        padding: 20px;
+    }
+    .kpi-grid, .widgets-grid {
+        grid-template-columns: 1fr; /* Empilha os cards */
+    }
+}
