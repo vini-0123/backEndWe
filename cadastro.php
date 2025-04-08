@@ -1,3 +1,41 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['email'])) {
+    include_once('factory/conexao.php');
+
+    function generateUUIDv4() {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
+    }
+
+    $uuid = generateUUIDv4();
+    $empresa = $_POST['nome_empresa'];
+    $email = $_POST['email'];
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("INSERT INTO data_clients (id, nome_empresa, email, senha) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $uuid, $empresa, $email, $senha);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Usuário cadastrado com sucesso!');</script>";
+    } else {
+        echo "Erro: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,19 +57,19 @@
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
-            <form action="#">
+            <form action="" method="POST">
                 <h2>Cadastre-se</h2>
 
                 <div class="input-group">
-                    <input type="text" id="company-name" name="company-name" placeholder="Nome da empresa" required>
+                    <input type="text" id="company-name" name="nome_empresa" placeholder="Nome da empresa" required>
                 </div>
 
                 <div class="input-group">
-                    <input type="email" id="signup-email" name="signup-email" placeholder="Email" required>
+                    <input type="email" id="signup-email" name="email" placeholder="Email" required>
                 </div>
 
                 <div class="input-group password-wrapper">
-                    <input type="password" id="signup-password" name="signup-password" placeholder="Senha" required>
+                    <input type="password" id="signup-password" name="senha" placeholder="Senha" required>
                     <span class="toggle-password"><i class="fas fa-eye"></i></span>
                 </div>
 
