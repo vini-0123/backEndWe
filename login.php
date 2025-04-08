@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <!-- Changed lang to pt-BR -->
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="screen login-screen">
-        <a href="http://localhost:8080/project/backEndWe/workease/index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="cadastro.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
@@ -39,7 +39,7 @@
 
                 <button type="submit" class="btn btn-primary">Login</button>
 
-                <p class="extra-link">Não tem uma conta? <a href="http://localhost:8080/project/backEndWe/cadastro.php">Cadastrar</a></p>
+                <p class="extra-link">Não tem uma conta? <a href="cadastro.php">Cadastrar</a></p>
 
                 <p class="separator">ou</p>
 
