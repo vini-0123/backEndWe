@@ -474,8 +474,8 @@ $aboutText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
                 </ul>
             </nav>
             <div class="user-actions">
-                <a href="cadastro.php">Cadastrar</a>
-                <a href="login.php">Log in</a>
+                <a href="../cadastro.php">Cadastrar</a>
+                <a href="../login.php">Log in</a>
             </div>
         </div>
     </header>
