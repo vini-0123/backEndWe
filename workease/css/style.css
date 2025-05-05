@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff; /* Default text color */
+    line-height: 1.6;
+}
+
+/* Screen Layout & Background */
+.screen {
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    padding: 40px 20px; /* Padding top/bottom and left/right */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align content to the top */
+    background: linear-gradient(135deg, #5c84b5 0%, #2b4a75 100%); /* Gradient Background */
+    position: relative; /* Needed for absolute positioning of back link */
+    text-align: center; /* Center align text elements by default */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Add some space between the two screens if viewed together */
+.signup-screen {
+    padding-bottom: 60px; /* Extra space below the first screen */
+    margin-bottom: 40px; /* Space between screens */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Optional separator */
+}
+
+
+/* Back Link */
+.back-link {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    transition: opacity 0.3s ease;
+}
+
+.back-link:hover {
+    opacity: 0.8;
+}
+
+/* Logo */
+.logo {
+    font-size: 2.8rem; /* Large logo size */
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 50px; /* Space below back link / top */
+    margin-bottom: 40px; /* Space above form */
+}
+
+/* Form Container */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent light background */
+    padding: 35px 40px;
+    border-radius: 16px; /* Rounded corners */
+    width: 100%;
+    max-width: 420px; /* Max width for the form */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    height: 453px
+}
+
+.form-container h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 20px;
+    position: relative; /* For password toggle positioning */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 20px; /* Comfortable padding */
+    border: none; /* Remove default border */
+    border-radius: 25px; /* Highly rounded corners */
+    background-color: #e8edf1; /* Light grey background */
+    color: #333; /* Dark text color for input */
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
+}
+
+input::placeholder {
+    color: #888; /* Placeholder text color */
+}
+
+/* Password Toggle Icon */
+.password-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777; /* Icon color */
+    font-size: 1.1rem;
+}
+
+/* Form Options (Forgot Password / Remember Me) - Login Screen Only */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    color: #e0e0e0; /* Lighter text color */
+}
+
+.forgot-password {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.forgot-password:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    /* Basic styling for checkbox */
+    appearance: none; /* Remove default */
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #eee;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle; /* Align with text */
+}
+
+.remember-me input[type="checkbox"]:checked {
+    background-color: #3b5998; /* Use a theme color */
+    border-color: #3b5998;
+}
+
+/* Checkmark for checkbox */
+.remember-me input[type="checkbox"]:checked::after {
+    content: '\f00c'; /* Font Awesome checkmark */
+    font-family: 'Font Awesome 6 Free'; /* Specify Font Awesome */
+    font-weight: 900; /* Use solid style */
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* Buttons */
+.btn {
+    display: inline-block; /* Allows padding and width */
+    padding: 14px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none;
+    width: 100%; /* Make buttons full width */
+    text-align: center;
+    margin-bottom: 20px; /* Space below buttons */
+}
+
+.btn-primary {
+    background-color: #294a70; /* Dark blue primary button */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary:hover {
+    background-color: #3a5f8a; /* Slightly lighter blue on hover */
+}
+
+.btn-primary:active {
+    transform: scale(0.98); /* Slight shrink on click */
+}
+
+/* Separator */
+.separator {
+    font-size: 0.9rem;
+    color: #c0c0c0;
+    margin-top: 45px;
+    margin-bottom: 15px; 
+    text-transform: lowercase;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Social Login Button */
+.btn-social {
+    color: #ffffff; /* Darker text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between text and icon */
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-social .fa-linkedin {
+    color: #ffffff; /* LinkedIn blue */
+    font-size: 1.3rem;
+}
+
+/* Extra Link (Sign up link on Login page) */
+.extra-link {
+    font-size: 0.9rem;
+    margin-top: 20px; /* Space above */
+    margin-bottom: 20px; /* Space below before separator */
+    color: #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.extra-link a {
+    color: #ffffff; /* White link */
+    font-weight: 500;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.extra-link a:hover {
+    text-decoration: underline;
+}
+
+/* Small screen adjustments */
+/* --- Add this rule for Google Icon Color --- */
+.btn-social .fa-google {
+    color: #DB4437; /* Standard Google Red */
+    font-size: 1.2rem; /* Optional: Adjust size slightly if needed */
+}
+
+/* --- Adjust Animation Delays --- */
+
+/* Modify the existing delay section like this: */
+
+/* Apply Base Animation Settings to Form Elements (Keep As Is) */
+.form-container h2,
+.form-container .input-group,
+.form-container .form-options,
+.form-container .btn, /* This targets ALL buttons initially */
+.form-container .extra-link,
+.form-container .separator {
+    animation-name: fadeInUp;
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+    /* === CHANGE THIS LINE === */
+    /* animation-fill-mode: backwards; */
+    animation-fill-mode: both; /* Use 'both' */
+    opacity: 0; /* Keep this - ensures start state is hidden */
+}
+
+/* Staggered Delays (Update this section) */
+.form-container h2 { animation-delay: 0.1s; }
+.form-container .input-group:nth-of-type(1) { animation-delay: 0.2s; }
+.form-container .input-group:nth-of-type(2) { animation-delay: 0.3s; }
+.signup-screen .form-container .input-group:nth-of-type(3) { animation-delay: 0.4s; } /* Signup only */
+.login-screen .form-container .form-options { animation-delay: 0.4s; } /* Login only */
+.form-container .btn-primary { animation-delay: 0.5s; }
+.login-screen .form-container .extra-link { animation-delay: 0.6s; } /* Login only */
+.form-container .separator { animation-delay: 0.7s; } /* Make separator appear slightly later */
+
+/* === NEW/UPDATED: Target social buttons specifically for final delays === */
+.form-container .btn-social[href="#linkedin-login"] {
+    animation-delay: 0.8s; /* LinkedIn button */
+}
+.form-container .btn-social[href="#google-login"] {
+    animation-delay: 0.9s; /* Google button (appears last) */
+}
+
+/* --- Ensure Keyframes are defined globally (NOT inside @media) --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Keep your @media query for small screens --- */
+@media (max-width: 480px) {
+    /* ... your existing small screen styles ... */
+
+}
