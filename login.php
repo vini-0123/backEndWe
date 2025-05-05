@@ -1,3 +1,41 @@
+<?php
+ob_start();
+session_start();
+include_once('./factory/conexao.php');
+
+if (isset($_POST['login-email'], $_POST['login-password'])) {
+    $email = $_POST['login-email'];
+    $senha = $_POST['login-password'];
+
+    $query = "SELECT * FROM data_clients WHERE email = ?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $dados_usuario = $result->fetch_assoc();
+
+        if (password_verify($senha, $dados_usuario['senha'])) {
+            $_SESSION['login-email'] = $email;
+            header('Location: ./sistema/dashboard.php');
+            exit();
+        } else {
+            $erro = "Usuário ou senha inválidos.";
+        }
+    } else {
+        $erro = "Usuário ou senha inválidos.";
+    }
+}
+
+if (isset($_GET['erro'])) {
+    $erro = "É PRECISO LOGAR PARA ACESSAR O SISTEMA";
+}
+ob_end_flush();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,7 +56,7 @@
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
-            <form action="#">
+            <form action="" method="POST">
                 <h2>Login</h2>
 
                 <div class="input-group">

@@ -1,10 +1,14 @@
 <?php
+
+session_start();
+include_once('./factory/conexao.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if (isset($_POST['email'])) {
-    include_once('factory/conexao.php');
+    include_once('./factory/conexao.php');
 
     function generateUUIDv4() {
         return sprintf(
