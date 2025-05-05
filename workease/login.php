@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorkEase - Login</title> <!-- Improved Title -->
-    <link rel="stylesheet" href="css/style.css">
     <!-- === IMPORTANT: Add Font Awesome === -->
+    <link rel="stylesheet" href= "css/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- === IMPORTANT: Add Google Font (Poppins) === -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="screen login-screen">
-        <a href="http://localhost:8080/project/backEndWe/workease/index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
@@ -39,7 +39,7 @@
 
                 <button type="submit" class="btn btn-primary">Login</button>
 
-                <p class="extra-link">Não tem uma conta? <a href="http://localhost:8080/project/backEndWe/cadastro.php">Cadastrar</a></p>
+                <p class="extra-link">Não tem uma conta? <a href="cadastro.php">Cadastrar</a></p>
 
                 <p class="separator">ou</p>
 

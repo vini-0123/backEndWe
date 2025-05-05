@@ -467,15 +467,15 @@ $aboutText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
             <a href="#" class="logo"><?= htmlspecialchars($companyName) ?></a>
             <nav>
                 <ul>
-                    <li><a href="#">Produtos</a></li>
+                    <li><a href="dashboard.php">Produtos</a></li>
                     <li><a href="#">Parcerias</a></li>
                     <li><a href="#contato">Contato</a></li>
                     <li><a href="#sobre">Sobre nós</a></li>
                 </ul>
             </nav>
             <div class="user-actions">
-                <a href="http://localhost:8080/project/backEndWe/cadastro.php">Cadastrar</a>
-                <a href="http://localhost:8080/project/backEndWe/login.php">Log in</a>
+                <a href="cadastro.php">Cadastrar</a>
+                <a href="login.php">Log in</a>
             </div>
         </div>
     </header>
