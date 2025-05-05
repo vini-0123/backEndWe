@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="screen login-screen">
-        <a href="cadastro.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="./workease/index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
