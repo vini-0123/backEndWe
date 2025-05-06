@@ -1,4 +1,11 @@
 <?php
+include_once './factory/conexao.php';
+include('verificarLogin.php');
+
+$query = "SELECT * FROM data_clients";
+$result = $mysqli->query($query);
+$mysqli->close();
+
 // --- Simulação de Dados (Substitua pela sua lógica de banco de dados) ---
 $nomeUsuario = "Admin";
 $valorTotalEstoque = 150345.50;
@@ -605,6 +612,8 @@ $distribuicaoEstoqueData = [
     </style>
 </head>
 <body>
+    <h2>Seja bem-vindo(a), <?php  echo $_SESSION ['user_id'] ?></h2>
+    <a href="logout.php">Sair</a>
     <div class="dashboard-container">
         <!-- ===== Sidebar ===== -->
         <aside class="sidebar">

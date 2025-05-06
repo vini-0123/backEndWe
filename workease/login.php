@@ -1,3 +1,42 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+
+include_once'./factory/conexao.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $email = $_POST['login-email'];
+    $password = $_POST['login-password'];
+
+
+    $stmt = $mysqli->prepare("SELECT * FROM data_clients WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        if (password_verify($password, $user['senha'])) {
+   
+            $_SESSION['user_id'] = $user['nome_empresa'];
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $error_message = "Senha incorreta.";
+        }
+    } else {
+        $error_message = "Usuário não encontrado.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR"> <!-- Changed lang to pt-BR -->
 <head>
@@ -18,7 +57,7 @@
         <h1 class="logo">WorkEase</h1>
 
         <div class="form-container">
-            <form action="#">
+            <form action="#" method="POST">
                 <h2>Login</h2>
 
                 <div class="input-group">
