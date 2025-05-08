@@ -524,6 +524,14 @@ $aboutText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
                          <i class="fas fa-desktop"></i>
                          <h3>Facilidade de<br> usabilidade</h3>
                      </div>
+                     <div class="feature-item">
+                         <i class="fas fa-cogs"></i>
+                         <h3>Configuração<br> personalizada</h3>
+                     </div>
+                     <div class="feature-item">
+                         <i class="fas fa-shield-alt"></i>
+                         <h3>Segurança<br> avançada</h3>
+                     </div>
                  </div>
              </div>
          </section>
