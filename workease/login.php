@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
         <div class="form-container">
-        <section style="background-color: var(--accent-gold); margin: 10px; color: var(--dark-blue); padding: 10px; border-radius: 5px;">
+        <section style="background-color: var(--accent-gold); color: var(--dark-blue); border-radius: 5px;">
         <?php echo $erro ?? '' ?>
         </section>
             <form action="#" method="POST">
