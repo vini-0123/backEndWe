@@ -3,7 +3,7 @@
 $companyName = "WorkEase";
 $pageTitle = "Sua Eficiência Vai Além!";
 $contactPhone = "+55 (11) 99999-9999";
-$contactEmail = "workease@gmail.com";
+$contactEmail = "workease.contato@gmail.com";
 
 // Texto "Sobre o Software" (pode vir de um banco de dados ou arquivo no futuro)
 $aboutText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
