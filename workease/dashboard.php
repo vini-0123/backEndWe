@@ -613,7 +613,6 @@ $distribuicaoEstoqueData = [
 </head>
 <body>
     <h2>Seja bem-vindo(a), <?php  echo $_SESSION ['user_id'] ?></h2>
-    <a href="logout.php">Sair</a>
     <div class="dashboard-container">
         <!-- ===== Sidebar ===== -->
         <aside class="sidebar">
@@ -631,6 +630,7 @@ $distribuicaoEstoqueData = [
                     <li><a href="#"><span class="icon">👥</span> Fornecedores</a></li>
                     <li><a href="#"><span class="icon">📈</span> Relatórios</a></li>
                     <li><a href="#"><span class="icon">⚙️</span> Configurações</a></li>
+                    <li><a href="logout.php"><span class="icon">🔓</span>Sair</a></li>
                 </ul>
             </nav>
         </aside>
