@@ -1,39 +1,35 @@
 <?php
+include_once './factory/conexao.php';
 
-session_start();
-
-if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php");
-    exit;
-}
-
-include_once'./factory/conexao.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login-email'])) {
     $email = $_POST['login-email'];
-    $password = $_POST['login-password'];
 
-
-    $stmt = $mysqli->prepare("SELECT * FROM data_clients WHERE email = ?");
+    // 1) Procura o usuário
+    $stmt = $mysqli->prepare("SELECT id FROM data_clients WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    if ($user) {
+        // 2) Gera token e salva
+        $token = bin2hex(random_bytes(50));
+        $expira_em = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-        if (password_verify($password, $user['senha'])) {
-   
-            $_SESSION['user_id'] = $user['nome_empresa'];
-            header("Location: dashboard.php");
-            exit;
-        } else {
-            $erro = "Senha incorreta.";
-        }
+        $stmt2 = $mysqli->prepare("
+            INSERT INTO recuperacao_senhas (client_id, token, expira_em)
+            VALUES (?, ?, ?)
+        ");
+        $stmt2->bind_param("sss", $user['id'], $token, $expira_em);
+        $stmt2->execute();
+
+        // 3) Exibe link para teste local
+        $link = "http://localhost/dashboard/backEndWe/workease/redefinir_senha.php?token=$token";
+        echo "Clique aqui para redefinir sua senha: <a href='$link'>$link</a>";
     } else {
-        $erro = "Usuário não encontrado.";
+        echo "<p style='color:red;'>E-mail não encontrado.</p>";
     }
+    exit;
 }
 ?>
 
@@ -60,32 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php echo $erro ?? '' ?>
         </section>
             <form action="#" method="POST">
-                <h2>Login</h2>
-
+                Insira o email cadastrado:
                 <div class="input-group">
                      <input type="email" id="login-email" name="login-email" placeholder="E-mail" required>
                  </div>
-
-                <div class="input-group password-wrapper">
-                    <input type="password" id="login-password" name="login-password" placeholder="Senha" required>
-                    <span class="toggle-password"><i class="fas fa-eye"></i></span>
-                </div>
-
-                <div class="form-options">
-                    <a href="recuperacao.php" class="forgot-password">Esqueceu a senha?</a>
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember"> Lembrar-me
-                    </label>
-                </div>
-
                 <button type="submit" class="btn btn-primary">Login</button>
-
-                <p class="extra-link">Não tem uma conta? <a href="cadastro.php">Cadastrar</a></p>
-
-                <p class="separator">ou</p>
-
-                <a href="#linkedin-login" class="btn-social">
-                    Entrar com <i class="fab fa-linkedin"></i>
                 </a>
             </form>
         </div>
