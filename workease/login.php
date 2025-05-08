@@ -29,13 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: dashboard.php");
             exit;
         } else {
-            $error_message = "Senha incorreta.";
+            $erro = "Senha incorreta.";
         }
     } else {
-        $error_message = "Usuário não encontrado.";
+        $erro = "Usuário não encontrado.";
     }
 }
 ?>
+<section style="background-color: red; margin: 10px;">
+    <?php echo $erro ?? '' ?>
+</section>
 
 <!DOCTYPE html>
 <html lang="pt-BR"> <!-- Changed lang to pt-BR -->
