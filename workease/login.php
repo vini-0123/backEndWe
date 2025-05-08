@@ -36,9 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-<section style="background-color: red; margin: 10px;">
-    <?php echo $erro ?? '' ?>
-</section>
 
 <!DOCTYPE html>
 <html lang="pt-BR"> <!-- Changed lang to pt-BR -->
@@ -58,8 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="screen login-screen">
         <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
         <h1 class="logo">WorkEase</h1>
-
         <div class="form-container">
+        <section style="background-color: var(--accent-gold); margin: 10px; color: var(--dark-blue); padding: 10px; border-radius: 5px;">
+        <?php echo $erro ?? '' ?>
+        </section>
             <form action="#" method="POST">
                 <h2>Login</h2>
 
