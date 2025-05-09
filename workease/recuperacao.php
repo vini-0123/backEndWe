@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login-email'])) {
         $stmt2->execute();
 
         // 3) Exibe link para teste local
-        $link = "http://localhost/dashboard/backEndWe/workease/redefinir_senha.php?token=$token";
+        $link = "http://localhost/backEndWe/workease/redefinir_senha.php?token=$token";
         echo "Clique aqui para redefinir sua senha: <a href='$link'>$link</a>";
     } else {
         echo "<p style='color:red;'>E-mail não encontrado.</p>";
