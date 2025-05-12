@@ -1,0 +1,207 @@
+:root {
+    --dark-blue: #0a192f;
+    --medium-blue: #112240;
+    --light-blue-accent: rgba(23, 42, 69, 0.8);
+    --light-text: #ccd6f6;
+    --gray-text: #8892b0;
+    --accent-gold: #d4af37;
+    --accent-gold-hover: #e6c040;
+    --white: #ffffff;
+    --shadow-color: rgba(2, 12, 27, 0.7);
+    --glass-bg: rgba(17, 34, 64, 0.6);
+    --taskflow-dark: #1A0041;
+    --taskflow-primary: #4C0182;
+    --taskflow-secondary: #6c5f8d;
+    --taskflow-accent: #9C8CB9;
+    --taskflow-light: #dcd7d4;
+    --taskflow-white: #ffffff;
+    --taskflow-glass: rgba(76, 1, 130, 0.15);
+}
+
+/* Layout Base */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--taskflow-dark) 0%, var(--taskflow-primary) 100%);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: var(--taskflow-glass);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+}
+
+.logo {
+    color: var(--taskflow-white);
+    text-align: center;
+    padding: 0 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    color: var(--taskflow-accent);
+}
+
+/* LOGO AREA STYLING - SPINNING GEAR */
+.sidebar .logo-area {
+    padding: 1rem 1.5rem; /* Added more horizontal padding */
+    text-align: left; /* Changed from center to left */
+    border-bottom: 1px solid rgba(220, 215, 212, 0.1); 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Changed from center to flex-start */
+    gap: 0.75rem; /* Added gap between icon and text */
+}
+
+.sidebar .logo-area .logo-icon-gear {
+    font-size: 2rem;
+    color: var(--taskflow-light-lavender);
+    animation: spin 4s linear infinite;
+    display: inline-block;
+}
+
+.sidebar .logo-area .logo-text-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--taskflow-white);
+    letter-spacing: 0.5px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: var(--taskflow-accent);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.menu li.active a,
+.menu li a:hover {
+    background: var(--taskflow-glass);
+    color: var(--taskflow-white);
+}
+
+.menu li a i {
+    width: 20px;
+    margin-right: 10px;
+}
+
+/* Main Content */
+.main-wrapper {
+    flex-grow: 1;
+    padding: 1.5rem;
+    margin-left: 250px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--taskflow-glass);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
+
+.search-bar {
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.search-bar input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--taskflow-white);
+}
+
+.search-bar input::placeholder {
+    color: var(--taskflow-accent);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    color: var(--taskflow-white);
+}
+
+.btn-logout {
+    color: var(--taskflow-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.btn-logout:hover {
+    color: var(--taskflow-white);
+}
+
+/* Cards e Grids */
+.glass-container {
+    background: var(--taskflow-glass);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Utilitários */
+.text-white {
+    color: var(--taskflow-white) !important;
+}
+
+.btn-primary {
+    background: var(--taskflow-primary);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--taskflow-dark);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.data-table th {
+    padding: 15px;
+    text-align: left;
+    color: var(--light-text);
+    font-weight: 500;
+    border-bottom: 2px solid var(--accent-gold);
+}
+
+.data-table td {
+    padding: 15px;
+    background: var(--glass-bg);
+    color: var(--gray-text);
+}
+
+.data-table tr:hover td {
+    background: rgba(23, 42, 69, 0.9);
+    color: var(--light-text);
+}
