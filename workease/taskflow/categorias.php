@@ -22,9 +22,15 @@ if ($mysqli && !$mysqli->connect_errno) {
     $stmt = $mysqli->prepare("SELECT id, nome, descricao, data_cadastro FROM categorias WHERE ativo = 1 ORDER BY nome");
     if ($stmt) { $stmt->execute(); $result = $stmt->get_result(); if ($result) { $categorias = $result->fetch_all(MYSQLI_ASSOC); } $stmt->close(); }
 } else {
-    $categorias = [['id' => 1, 'nome' => 'Eletrônicos', 'descricao' => 'Dispositivos e gadgets eletrônicos.', 'data_cadastro' => '2023-01-15 10:00:00'], ['id' => 2, 'nome' => 'Livros', 'descricao' => 'Livros de diversos gêneros.', 'data_cadastro' => '2023-02-20 14:30:00'], ['id' => 3, 'nome' => 'Roupas', 'descricao' => 'Vestuário masculino e feminino.', 'data_cadastro' => '2023-03-10 09:15:00']];
+    // Dados simulados para categorias
+    $categorias = [
+        ['id' => 'uuid-cat-1', 'nome' => 'Eletrônicos', 'descricao' => 'Dispositivos e gadgets eletrônicos.', 'data_cadastro' => '2023-01-15 10:00:00'], 
+        ['id' => 'uuid-cat-2', 'nome' => 'Livros', 'descricao' => 'Livros de diversos gêneros.', 'data_cadastro' => '2023-02-20 14:30:00'], 
+        ['id' => 'uuid-cat-3', 'nome' => 'Roupas', 'descricao' => 'Vestuário masculino e feminino.', 'data_cadastro' => '2023-03-10 09:15:00']
+    ];
 }
 $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'Usuário';
+$softwareName = "Taskflow"; // ** ADICIONADO PARA CONSISTÊNCIA **
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +38,7 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias - TaskFlow</title>
+    <title>Categorias - <?= htmlspecialchars($softwareName) // ** USANDO $softwareName ** ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -53,6 +59,10 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
             --taskflow-danger: #dc3545;
             --taskflow-danger-hover: #bb2d3b;
             --taskflow-success: #198754;
+
+            /* ** CORES PARA A ÁUREA DO LOGO (COPIADO DO INDEX.PHP DO DASHBOARD) ** */
+            --logo-aura-color: #6A0DAD; 
+            --logo-aura-highlight: #9370DB;
         }
         body { background-color: var(--taskflow-body-bg); font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; color: var(--taskflow-text-primary); transition: margin-left .3s ease-in-out }
         .dashboard-container { display: flex; min-height: 100vh }
@@ -63,34 +73,70 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
             transition: width 0.3s ease-in-out;
         }
        
-        /* LOGO AREA STYLING - SPINNING GEAR */
+        /* ** ESTILOS DO LOGO DA SIDEBAR (COPIADO DO INDEX.PHP DO DASHBOARD) ** */
         .sidebar .logo-area {
-            padding: 1rem 1.5rem; /* Added more horizontal padding */
-            text-align: left; /* Changed from center to left */
+            padding: 0.8rem 1.2rem; 
+            text-align: left; 
             border-bottom: 1px solid rgba(220, 215, 212, 0.1); 
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Changed from center to flex-start */
-            gap: 0.75rem; /* Added gap between icon and text */
+            justify-content: flex-start; 
+            gap: 0.6rem; 
+            height: 60px; 
         }
 
-        .sidebar .logo-area .logo-icon-gear {
-            font-size: 2rem; /* Slightly reduced size */
-            color: var(--taskflow-light-lavender);
-            animation: spin 4s linear infinite;
-            display: inline-block;
+        .sidebar .logo-image-wrapper { 
+            position: relative;
+            width: 40px; 
+            height: 40px;
         }
 
-        .sidebar .logo-area .logo-text-brand { 
-            font-size: 1.6rem; /* Slightly reduced size */
-            font-weight: 700;
-            color: var(--taskflow-white);
-            letter-spacing: 0.5px;
+        .sidebar .logo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%; 
+            position: relative;
+            z-index: 2;
         }
-        @keyframes spin {
+
+        .sidebar .logo-image-wrapper::before { 
+            content: '';
+            position: absolute;
+            top: -4px; 
+            left: -4px;
+            width: calc(100% + 8px); 
+            height: calc(100% + 8px);
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px var(--logo-aura-color), 0 0 9px 2px var(--logo-aura-highlight);
+            animation: rotateAuraSidebar 10s linear infinite, pulseAuraSidebar 2.5s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes rotateAuraSidebar {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes pulseAuraSidebar {
+            0% {
+                box-shadow: 0 0 5px 1px var(--logo-aura-color), 0 0 8px 2px var(--logo-aura-highlight);
+                opacity: 0.6;
+            }
+            100% {
+                box-shadow: 0 0 8px 2px var(--logo-aura-highlight), 0 0 12px 3px var(--logo-aura-color);
+                opacity: 1;
+            }
+        }
+        
+        .sidebar .logo-area .logo-text-brand { 
+            font-size: 1.5rem; 
+            font-weight: 700;
+            color: var(--taskflow-white);
+            letter-spacing: 0.5px;
+            line-height: 1; 
+        }
+        /* ** FIM DOS ESTILOS DO LOGO DA SIDEBAR ** */
+
 
         /* Menu Styles (Same as index.php) */
         .sidebar .menu ul { list-style: none; padding: 1.25rem 0; margin:0; }
@@ -101,9 +147,9 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
 
         /* Main Wrapper, Header, Main content, Stats Card, Table Card, Table, Modal, FAB, Responsive (Same as previous categorias.php) */
         .main-wrapper { flex-grow: 1; margin-left: 260px; display: flex; flex-direction: column; transition: margin-left .3s ease-in-out }
-        .header { background-color: var(--taskflow-card-bg); padding: .9rem 1.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--taskflow-border-color); box-shadow: 0 2px 4px rgba(26,0,65,.05); position: sticky; top: 0; z-index: 1020 }
-        .header .search-bar { max-width: 450px; flex-grow: 1; visibility: hidden }
-        .header .user-info { margin-left: auto }
+        .header { background-color: var(--taskflow-card-bg); padding: .9rem 1.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--taskflow-border-color); box-shadow: 0 2px 4px rgba(26,0,65,.05); position: sticky; top: 0; z-index: 1020; height: 60px; /* ** ALTURA DO HEADER IGUAL À LOGO-AREA ** */ }
+        .header .search-bar { max-width: 450px; flex-grow: 1; visibility: hidden } /* Search bar hidden in categorias.php */
+        .header .user-info { margin-left: auto } /* Ajuste para alinhar user-info à direita quando search-bar está hidden */
         .header .user-info .username { margin-right: 1.25rem; font-weight: 500; color: var(--taskflow-text-primary) }
         .header .btn-logout { color: var(--taskflow-muted-purple); font-size: 1.2rem }
         .header .btn-logout:hover { color: var(--taskflow-deepest-purple) }
@@ -152,10 +198,14 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
-            <div class="logo-area">
-                <i class="fas fa-cog logo-icon-gear"></i>
-                <span class="logo-text-brand">Taskflow</span>
-            </div>
+            <!-- ** LOGO AREA MODIFICADA PARA SER IGUAL AO DASHBOARD INDEX.PHP ** -->
+            <a href="index.php" class="logo-area" style="text-decoration: none;"> 
+                <div class="logo-image-wrapper">
+                    <img src="img/taskflow_logo.png" alt="<?= htmlspecialchars($softwareName) ?> Logo">
+                </div>
+                <span class="logo-text-brand"><?= htmlspecialchars($softwareName) ?></span>
+            </a>
+            <!-- ** FIM LOGO AREA MODIFICADA ** -->
             <nav class="menu">
                 <ul>
                     <li><a href="index.php"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
@@ -169,10 +219,10 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
 
         <div class="main-wrapper">
             <header class="header">
-                <form class="search-bar d-none d-md-flex" action="#" method="GET"></form>
+                <form class="search-bar d-none d-md-flex" action="#" method="GET"></form> <!-- Search bar escondida -->
                 <div class="user-info d-flex align-items-center">
                     <span class="username"><?= $userName ?></span>
-                    <a href="logout.php" class="btn-logout" title="Sair"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                    <a href="../logout.php" class="btn-logout" title="Sair"><i class="fas fa-sign-out-alt fa-lg"></i></a>  <!-- ** AJUSTADO CAMINHO DO LOGOUT ** -->
                 </div>
             </header>
 
@@ -180,6 +230,23 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                 <div class="page-title-area">
                     <h1><i class="fas fa-tags me-2"></i>Categorias</h1>
                 </div>
+                
+                <!-- Mensagens de Sucesso/Erro (se aplicável para esta página) -->
+                <?php if (isset($_SESSION['form_success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($_SESSION['form_success']) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['form_success']); ?>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['form_error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($_SESSION['form_error']) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['form_error']); ?>
+                <?php endif; ?>
+
 
                 <div class="row stats-card-wrapper">
                     <div class="col-md-4"> 
@@ -216,10 +283,11 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                                             <td><?= htmlspecialchars($categoria['descricao'] ?? 'N/A') ?></td>
                                             <td class="text-center"><?= isset($categoria['data_cadastro']) ? date('d/m/Y', strtotime($categoria['data_cadastro'])) : 'N/A' ?></td>
                                             <td class="actions text-center">
-                                                <button class="btn btn-sm btn-outline-primary" title="Editar Categoria" onclick="openEditModal(<?= $categoria['id'] ?>, '<?= htmlspecialchars(addslashes($categoria['nome']), ENT_QUOTES) ?>', '<?= htmlspecialchars(addslashes($categoria['descricao'] ?? ''), ENT_QUOTES) ?>')">
+                                                <button class="btn btn-sm btn-outline-primary" title="Editar Categoria" 
+                                                    onclick="openEditModal('<?= htmlspecialchars($categoria['id']) // ID como string (UUID) ?>', '<?= htmlspecialchars($categoria['nome']) ?>', '<?= htmlspecialchars($categoria['descricao'] ?? '') ?>')">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Excluir Categoria" onclick="confirmDeleteCategoria(<?= $categoria['id'] ?>)">
+                                                <button class="btn btn-sm btn-outline-danger" title="Excluir Categoria" onclick="confirmDeleteCategoria('<?= htmlspecialchars($categoria['id']) // ID como string (UUID) ?>')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
@@ -256,16 +324,128 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
     <a href="#" class="fab" title="Nova Categoria" data-bs-toggle="modal" data-bs-target="#categoryModal" onclick="prepareNewModal()"><i class="fas fa-plus"></i></a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // JavaScript (kept as is from previous categorias.php)
         const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
         const modalLabel = document.getElementById('categoryModalLabel');
         const categoriaIdInput = document.getElementById('categoriaId');
         const categoriaNomeInput = document.getElementById('categoriaNome');
         const categoriaDescricaoInput = document.getElementById('categoriaDescricao');
-        function prepareNewModal() { modalLabel.textContent = 'Nova Categoria'; categoriaIdInput.value = ''; document.getElementById('categoryForm').reset(); }
-        function openEditModal(id, nome, descricao) { modalLabel.textContent = 'Editar Categoria'; categoriaIdInput.value = id; categoriaNomeInput.value = nome; categoriaDescricaoInput.value = descricao; categoryModal.show(); }
-        function saveCategoria() { const id = categoriaIdInput.value; const nome = categoriaNomeInput.value; const descricao = categoriaDescricaoInput.value; if (!nome.trim()) { alert('O nome da categoria é obrigatório.'); return; } console.log('Salvando Categoria:', { id, nome, descricao }); alert(`Categoria "${nome}" ${id ? 'atualizada' : 'salva'}! (Simulação)`); categoryModal.hide(); }
-        function confirmDeleteCategoria(id) { if (confirm('Deseja realmente excluir esta categoria? Esta ação não pode ser desfeita.')) { console.log('Excluir categoria ID:', id); alert('Categoria ID ' + id + ' excluída! (Simulação)'); } }
+
+        function prepareNewModal() {
+            modalLabel.textContent = 'Nova Categoria';
+            categoriaIdInput.value = '';
+            document.getElementById('categoryForm').reset();
+        }
+
+        function openEditModal(id, nome, descricao) {
+            modalLabel.textContent = 'Editar Categoria';
+            categoriaIdInput.value = id;
+            categoriaNomeInput.value = nome;
+            categoriaDescricaoInput.value = descricao || '';
+            categoryModal.show();
+        }
+
+        function saveCategoria() {
+            const id = categoriaIdInput.value;
+            const nome = categoriaNomeInput.value;
+            const descricao = categoriaDescricaoInput.value;
+
+            if (!nome.trim()) {
+                alert('O nome da categoria é obrigatório.');
+                return;
+            }
+
+            const data = {
+                id: id, // Pode ser vazio para nova categoria
+                nome: nome,
+                descricao: descricao
+            };
+
+            // Adicionar 'action' para o backend saber se é criar ou atualizar
+            data.action = id ? 'update' : 'create';
+
+
+            fetch('salvar_categoria.php', { // Certifique-se que este é o endpoint correto
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Tenta pegar a mensagem de erro do corpo da resposta, se houver
+                    return response.text().then(text => { throw new Error(text || 'Erro na requisição HTTP: ' + response.status) });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // alert(data.message); // Removido para usar a mensagem da sessão
+                    // Armazena a mensagem de sucesso na sessão e recarrega
+                    sessionStorage.setItem('form_success', data.message); // Usar sessionStorage ou passar via GET
+                    window.location.reload(); 
+                } else {
+                    alert('Erro ao salvar: ' + (data.message || 'Erro desconhecido.'));
+                }
+                categoryModal.hide();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao salvar categoria: ' + error.message + '. Verifique o console para mais detalhes.');
+            });
+        }
+
+        function confirmDeleteCategoria(id) {
+             if (confirm('Deseja realmente excluir esta categoria? Esta ação não pode ser desfeita.')) {
+                const data = { id: id, action: 'delete' };
+
+                fetch('salvar_categoria.php', { // Mesmo endpoint, mas com action: 'delete'
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text || 'Erro HTTP: ' + response.status) });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        sessionStorage.setItem('form_success', data.message);
+                        window.location.reload();
+                    } else {
+                        alert('Erro ao excluir: ' + (data.message || 'Erro desconhecido.'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir:', error);
+                    alert('Erro ao excluir categoria: ' + error.message);
+                });
+            }
+        }
+
+        // Exibir mensagens da sessão (após reload)
+        document.addEventListener('DOMContentLoaded', () => {
+            const successMessage = sessionStorage.getItem('form_success');
+            if (successMessage) {
+                // Cria um alerta Bootstrap dinamicamente
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                alertDiv.setAttribute('role', 'alert');
+                alertDiv.innerHTML = `
+                    ${successMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                // Adiciona o alerta ao início do <main>
+                const mainElement = document.querySelector('main');
+                if (mainElement) {
+                    mainElement.insertBefore(alertDiv, mainElement.firstChild);
+                }
+                sessionStorage.removeItem('form_success'); // Limpa a mensagem
+            }
+            // Poderia fazer o mesmo para 'form_error' se necessário
+        });
     </script>
 </body>
 </html>

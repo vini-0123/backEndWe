@@ -1,0 +1,500 @@
+/* --- Variáveis de Cor (Nova Paleta - MAIS VIVAS) --- */
+        :root {
+            --dark-blue: #01122E;        /* Richer, deeper dark blue */
+            --medium-blue: #0B4090;     /* More saturated medium blue */
+            --accent-color: #4A90E2;     /* Vivid, bright blue accent */
+            --accent-color-hover: #63A5F2; /* Lighter vivid blue for hover */
+            --light-text: #B0E0FF;       /* Saturated light sky blue text */
+            --gray-text: #88AACC;        /* Clearer blue-gray for secondary text */
+            --white: #B0E0FF;           /* Using the same as light-text for general bright elements */
+            --shadow-color: rgba(1, 18, 46, 0.7); /* Shadow based on new --dark-blue */
+        }
+
+        /* --- Reset Básico & Configurações Globais --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             scroll-behavior: smooth; /* Rolagem suave */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--light-text);
+            line-height: 1.7;
+            font-size: 16px; /* Base font size */
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        h1, h2, h3 {
+            color: var(--white); /* Using the new light blue for headings */
+            font-weight: 700;
+            line-height: 1.3;
+             margin-bottom: 0.75em;
+        }
+
+        h1 { font-size: clamp(2rem, 5vw, 3rem); } /* Responsivo */
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
+        h3 { font-size: 1.4rem; }
+
+        p {
+            color: var(--gray-text);
+            margin-bottom: 1em;
+        }
+         p.lead { /* Para parágrafos de destaque */
+             font-size: 1.15rem;
+             color: var(--light-text);
+         }
+
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color-hover);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: rgba(1, 18, 46, 0.85); /* Fundo semi-transparente com novo --dark-blue base */
+            padding: 15px 0;
+            position: sticky; /* Fixa o header no topo */
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            backdrop-filter: blur(10px); /* Efeito de vidro fosco */
+            box-shadow: 0 2px 15px var(--shadow-color);
+            transition: background-color 0.3s ease;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center; /* Alinhar itens verticalmente */
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.95em;
+            padding: 8px 0;
+            position: relative;
+             transition: color 0.3s ease;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 4px;
+            right: 0;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: var(--white);
+        }
+         nav ul li a:hover::after {
+            width: 100%;
+            left: 0;
+            background-color: var(--accent-color);
+        }
+
+        .user-actions {
+            display: flex; /* Para alinhar itens do user-actions */
+            align-items: center; /* Alinhar verticalmente */
+        }
+        .user-actions a, .user-actions .user-greeting {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 15px; /* Ajustado para consistência */
+            font-size: 0.95em;
+             padding: 8px 15px;
+             border: 1px solid var(--gray-text);
+             border-radius: 5px;
+             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+         .user-actions a:hover {
+             background-color: var(--medium-blue);
+             border-color: var(--light-text);
+             color: var(--white);
+         }
+         .user-actions a.login-btn { /* Botão Log in (ou último se for Sair) */
+             border-color: var(--accent-color);
+             color: var(--accent-color);
+         }
+         .user-actions a.login-btn:hover {
+             background-color: var(--accent-color);
+             color: var(--dark-blue); /* Text on accent background should be dark for contrast */
+             border-color: var(--accent-color);
+         }
+         .user-actions .user-greeting {
+            border: none; /* Remover borda da saudação */
+            padding-right: 0; /* Remover padding extra à direita da saudação */
+            color: var(--white); /* Destacar nome do usuário */
+            font-weight: 500;
+         }
+         .user-actions a.logout-btn { /* Estilo específico para o botão de Sair */
+            border-color: var(--gray-text);
+            color: var(--gray-text);
+         }
+         .user-actions a.logout-btn:hover {
+            background-color: var(--accent-color-hover);
+            color: var(--dark-blue); /* Text on accent background should be dark for contrast */
+            border-color: var(--accent-color-hover);
+         }
+        /* --- Specific Style for Settings Link --- */
+        .user-actions a.settings-link {
+            padding: 5px 10px; /* Pode ajustar o padding se quiser diferenciar */
+            font-size: 0.85em;
+            border: 1px solid var(--gray-text);
+            background-color: transparent;
+            color: var(--gray-text);
+            border-radius: 15px; /* Pode manter ou alterar */
+            margin-left: 10px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .user-actions a.settings-link:hover {
+            background-color: var(--medium-blue);
+            border-color: var(--accent-color);
+            color: var(--accent-color-hover);
+        }
+
+        .user-actions .user-greeting {
+             margin-right: 5px;
+             border: none;
+             padding-right: 0;
+             color: var(--white);
+             font-weight: 500;
+             margin-left: 15px; /* Garante espaçamento se for o primeiro item após nav */
+        }
+        .user-actions .settings-link + .logout-btn { /* Espaçamento se settings vier antes do logout */
+            margin-left: 10px;
+        }
+
+
+        /* --- Hero Section 1 --- */
+        .hero1 {
+            padding: 100px 0 60px;
+            text-align: center;
+            background: linear-gradient(rgba(1, 18, 46, 0.1), var(--dark-blue));
+        }
+
+        .hero1 h1 {
+            margin-bottom: 15px;
+        }
+
+        .hero1 p {
+            font-size: 1.2em;
+            color: var(--gray-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- About Section --- */
+        .about {
+            padding: 60px 0;
+        }
+
+        .about-content {
+            background-color: var(--medium-blue);
+            color: var(--light-text);
+            padding: 50px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 5px 25px var(--shadow-color);
+        }
+
+        .about-content h2 {
+            margin-bottom: 25px;
+            text-align: center;
+             color: var(--white);
+        }
+
+        .about-content p {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--light-text);
+            text-align: justify;
+        }
+
+        /* --- Hero Section 2 - CTA --- */
+        .hero2-cta {
+            padding: 100px 0;
+            text-align: center;
+            background-color: var(--medium-blue);
+        }
+
+        .hero2-cta h2 {
+            margin-bottom: 20px;
+        }
+
+        .hero2-cta p {
+            font-size: 1.25em;
+            margin-bottom: 40px;
+            color: var(--light-text);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent-color);
+            color: var(--dark-blue) !important; /* Added !important to ensure text color persists */
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color-hover);
+            transform: translateY(-2px);
+            color: var(--dark-blue) !important; /* Added !important to ensure text color persists on hover */
+        }
+
+        /* --- Features Section --- */
+        .features {
+            padding: 80px 0;
+        }
+         .features h2 {
+             text-align: center;
+             margin-bottom: 60px;
+             color: var(--white);
+         }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 90px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background-color: var(--medium-blue);
+            padding: 35px 30px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px var(--shadow-color);
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow-color);
+        }
+
+        .feature-item i {
+            font-size: 2.8em;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+
+        .feature-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+             font-weight: 500;
+            color: var(--white);
+        }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--medium-blue);
+            padding: 50px 0;
+            margin-top: 80px;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        footer .container {
+             text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            color: var(--gray-text);
+        }
+         footer p:first-child {
+            font-weight: 500;
+             color: var(--light-text);
+             margin-bottom: 15px;
+             font-size: 1.1em;
+         }
+         footer a {
+             color: var(--light-text);
+         }
+         footer a:hover {
+             color: var(--accent-color);
+         }
+
+        /* --- Botão Flutuante "Voltar ao Topo" --- */
+        #backToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            border: none;
+            outline: none;
+            background-color: var(--accent-color);
+            color: var(--dark-blue);
+            cursor: pointer;
+            padding: 0;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.4); /* Shadow from new accent color */
+            transition: background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0.8;
+             line-height: 50px;
+             text-align: center;
+        }
+
+        #backToTopBtn:hover {
+            background-color: var(--accent-color-hover);
+            opacity: 1;
+        }
+
+
+        /* --- Ajustes Responsivos --- */
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+             header .container {
+                 flex-direction: row;
+                 flex-wrap: wrap;
+                 justify-content: space-between;
+             }
+             nav {
+                 flex-basis: auto; /* Allow nav to shrink if needed */
+                 margin-top: 10px;
+             }
+             .user-actions {
+                  flex-basis: auto; /* Allow user-actions to shrink */
+                  margin-top: 10px;
+                  margin-left: 0; /* Reset margin-left for smaller screens */
+                  justify-content: center; /* Center user actions when they wrap */
+             }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+             nav {
+                 margin-top: 15px;
+             }
+             nav ul {
+                 justify-content: center;
+                 padding-left: 0;
+                 flex-wrap: wrap;
+             }
+             nav ul li {
+                 margin: 5px 12px;
+             }
+             .user-actions {
+                 margin-top: 15px;
+                 flex-wrap: wrap; /* Allow buttons to wrap */
+                 justify-content: center;
+             }
+             .user-actions a, .user-actions .user-greeting, .user-actions .settings-link {
+                 margin-left: 5px; /* Smaller margin for wrapped items */
+                 margin-right: 5px;
+                 margin-bottom: 10px; /* Space when wrapped */
+             }
+             .user-actions .user-greeting {
+                width: 100%; /* Greeting takes full width if wrapped */
+                text-align: center;
+                margin-bottom: 10px;
+             }
+
+
+             section {
+                 padding: 60px 0;
+             }
+            .about-content { padding: 30px; }
+             .features-grid {
+                 grid-template-columns: 1fr;
+             }
+             #backToTopBtn {
+                 width: 45px;
+                 height: 45px;
+                 font-size: 1.3rem;
+                 line-height: 45px;
+                 bottom: 20px;
+                 right: 20px;
+             }
+        }
+
+         @media (max-width: 480px) {
+             nav ul li { margin: 5px 8px; }
+             nav ul li a { font-size: 0.9em; }
+             .user-actions a, .user-actions .user-greeting, .user-actions .settings-link {
+                 font-size: 0.9em; padding: 6px 10px;
+                 width: calc(50% - 10px); /* Two buttons per row */
+                 margin-bottom: 10px;
+             }
+             .user-actions .user-greeting {
+                 width: 100%; /* Greeting takes full width */
+             }
+
+
+             h1 { font-size: 2rem; }
+             h2 { font-size: 1.8rem; }
+             .cta-button { padding: 15px 35px; font-size: 1.1em;}
+             .about-content { padding: 25px 20px; }
+             footer { padding: 40px 0; }
+         }

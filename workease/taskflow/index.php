@@ -3,53 +3,152 @@ session_start();
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    $_SESSION['logged_in'] = true; 
-    $_SESSION['user_name'] = 'Usuário Demonstração'; 
+    // Para ambiente de demonstração/teste, você pode definir valores padrão
+    $_SESSION['logged_in'] = true;
+    // $_SESSION['user_id'] = 'demo-user-id'; // Removido se não usado nas queries
+    $_SESSION['user_nome'];
+    // Em produção, o ideal seria redirecionar para login.php
+    // header('Location: login.php');
+    // exit;
 }
 
 $conexao_path = dirname(dirname(__FILE__)) . '/factory/conexao.php';
 if (file_exists($conexao_path)) {
     require_once $conexao_path;
 } else {
-    $mysqli = null; 
+    $mysqli = null;
+    error_log("Arquivo de conexão não encontrado: " . $conexao_path);
 }
 
-// --- LÓGICA DE DADOS DO DASHBOARD --- (Kept as is)
+// --- LÓGICA DE DADOS DO DASHBOARD ---
 $summary = ['total_produtos' => 0, 'total_itens' => 0, 'valor_total' => 0];
 $produtos_recentes = [];
 $low_stock_items = [];
 $category_stock_data = ["labels" => [], "data" => [], "colors" => []];
+// $userID = $_SESSION['user_id'] ?? null; // Removido, pois não será usado nas queries por enquanto
 
 if ($mysqli && !$mysqli->connect_errno) {
-    // ... (PHP data fetching logic - kept identical to your previous version) ...
     // 1. Sumário do Estoque (KPIs)
-    $query_total = "SELECT COUNT(*) as total_produtos, SUM(quantidade) as total_itens, SUM(quantidade * preco_unitario) as valor_total FROM produtos WHERE ativo = 1";
-    if ($stmt_total = $mysqli->prepare($query_total)) { $stmt_total->execute(); $result_total = $stmt_total->get_result(); if ($result_total && $result_total->num_rows > 0) { $summary_data = $result_total->fetch_assoc(); $summary['total_produtos'] = $summary_data['total_produtos']??0; $summary['total_itens'] = $summary_data['total_itens']??0; $summary['valor_total'] = $summary_data['valor_total']??0; } $stmt_total->close(); }
+    $query_total = "SELECT COUNT(*) as total_produtos, 
+                           SUM(quantidade_estoque) as total_itens, 
+                           SUM(quantidade_estoque * preco_unitario) as valor_total 
+                    FROM produtos 
+                    WHERE ativo = 1"; // REMOVIDO: AND usuario_id = ?
+    if ($stmt_total = $mysqli->prepare($query_total)) {
+        // REMOVIDO: $stmt_total->bind_param("s", $userID);
+        $stmt_total->execute();
+        $result_total = $stmt_total->get_result();
+        if ($result_total && $result_total->num_rows > 0) {
+            $summary_data = $result_total->fetch_assoc();
+            $summary['total_produtos'] = $summary_data['total_produtos'] ?? 0;
+            $summary['total_itens'] = $summary_data['total_itens'] ?? 0;
+            $summary['valor_total'] = $summary_data['valor_total'] ?? 0;
+        }
+        $stmt_total->close();
+    }  else {
+        error_log("Erro ao preparar query de sumário: " . $mysqli->error);
+    }
+
     // 2. Produtos Recentes
-    $query_products = "SELECT p.id, p.sku, p.nome, p.quantidade, p.preco_unitario, p.quantidade_minima, p.data_cadastro, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id AND c.ativo = 1 WHERE p.ativo = 1 ORDER BY p.data_cadastro DESC LIMIT 7";
-    if ($stmt_products = $mysqli->prepare($query_products)) { $stmt_products->execute(); $result_products = $stmt_products->get_result(); if ($result_products) { while($produto = $result_products->fetch_assoc()) { $produtos_recentes[] = $produto; } } $stmt_products->close(); }
+    $query_products = "SELECT p.id, p.sku, p.nome, p.quantidade_estoque, p.preco_unitario, 
+                              p.quantidade_minima, p.data_cadastro, c.nome as categoria_nome 
+                       FROM produtos p 
+                       LEFT JOIN categorias c ON p.categoria_id = c.id AND c.ativo = 1 
+                       WHERE p.ativo = 1 
+                       ORDER BY p.data_cadastro DESC LIMIT 7"; // REMOVIDO: AND p.usuario_id = ? e JOIN com c.usuario_id
+    if ($stmt_products = $mysqli->prepare($query_products)) {
+        // REMOVIDO: $stmt_products->bind_param("s", $userID);
+        $stmt_products->execute();
+        $result_products = $stmt_products->get_result();
+        if ($result_products) {
+            while ($produto = $result_products->fetch_assoc()) {
+                $produtos_recentes[] = $produto;
+            }
+        }
+        $stmt_products->close();
+    } else {
+        error_log("Erro ao preparar query de produtos recentes: " . $mysqli->error);
+    }
+
     // 3. Produtos com Estoque Baixo
-    $query_low_stock = "SELECT p.id, p.sku, p.nome, p.quantidade, p.quantidade_minima, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id AND c.ativo = 1 WHERE p.quantidade <= p.quantidade_minima AND p.quantidade_minima > 0 AND p.ativo = 1 ORDER BY (p.quantidade / NULLIF(p.quantidade_minima, 0)) ASC, p.quantidade ASC";
-    if ($stmt_low_stock = $mysqli->prepare($query_low_stock)) { $stmt_low_stock->execute(); $result_low_stock = $stmt_low_stock->get_result(); if ($result_low_stock) { while($item = $result_low_stock->fetch_assoc()) { $low_stock_items[] = $item; } } $stmt_low_stock->close(); }
+    $query_low_stock = "SELECT p.id, p.sku, p.nome, p.quantidade_estoque, p.quantidade_minima, c.nome as categoria_nome 
+                        FROM produtos p 
+                        LEFT JOIN categorias c ON p.categoria_id = c.id AND c.ativo = 1 
+                        WHERE p.quantidade_estoque <= p.quantidade_minima AND p.quantidade_minima > 0 AND p.ativo = 1 
+                        ORDER BY (p.quantidade_estoque / NULLIF(p.quantidade_minima, 0)) ASC, p.quantidade_estoque ASC"; // REMOVIDO: AND p.usuario_id = ? e JOIN com c.usuario_id
+    if ($stmt_low_stock = $mysqli->prepare($query_low_stock)) {
+        // REMOVIDO: $stmt_low_stock->bind_param("s", $userID);
+        $stmt_low_stock->execute();
+        $result_low_stock = $stmt_low_stock->get_result();
+        if ($result_low_stock) {
+            while ($item = $result_low_stock->fetch_assoc()) {
+                $low_stock_items[] = $item;
+            }
+        }
+        $stmt_low_stock->close();
+    } else {
+        error_log("Erro ao preparar query de estoque baixo: " . $mysqli->error);
+    }
+
     // 4. Dados para Gráfico
-    $query_category_stock = "SELECT c.nome as categoria_nome, SUM(p.quantidade) as total_quantidade FROM produtos p JOIN categorias c ON p.categoria_id = c.id WHERE p.ativo = 1 AND c.ativo = 1 GROUP BY c.id, c.nome HAVING SUM(p.quantidade) > 0 ORDER BY total_quantidade DESC LIMIT 5";
-    if ($stmt_cat_stock = $mysqli->prepare($query_category_stock)) { $stmt_cat_stock->execute(); $result_cat_stock = $stmt_cat_stock->get_result(); $bgColors = ['rgba(76,1,130,.8)','rgba(108,95,141,.8)','rgba(156,140,185,.8)','rgba(125,60,180,.8)','rgba(26,0,65,.8)']; $i=0; if ($result_cat_stock) { while($cat_data = $result_cat_stock->fetch_assoc()) { $category_stock_data['labels'][] = $cat_data['categoria_nome']; $category_stock_data['data'][] = (int)$cat_data['total_quantidade']; $category_stock_data['colors'][] = $bgColors[$i % count($bgColors)]; $i++; } } $stmt_cat_stock->close(); }
+    $query_category_stock = "SELECT c.nome as categoria_nome, SUM(p.quantidade_estoque) as total_quantidade 
+                             FROM produtos p 
+                             JOIN categorias c ON p.categoria_id = c.id 
+                             WHERE p.ativo = 1 AND c.ativo = 1 
+                             GROUP BY c.id, c.nome 
+                             HAVING SUM(p.quantidade_estoque) > 0 
+                             ORDER BY total_quantidade DESC LIMIT 5"; // REMOVIDO: AND p.usuario_id = ? AND c.usuario_id = ?
+    if ($stmt_cat_stock = $mysqli->prepare($query_category_stock)) {
+        // REMOVIDO: $stmt_cat_stock->bind_param("ss", $userID, $userID);
+        $stmt_cat_stock->execute();
+        $result_cat_stock = $stmt_cat_stock->get_result();
+        $bgColors = ['rgba(76,1,130,.8)', 'rgba(108,95,141,.8)', 'rgba(156,140,185,.8)', 'rgba(125,60,180,.8)', 'rgba(26,0,65,.8)'];
+        $i = 0;
+        if ($result_cat_stock) {
+            while ($cat_data = $result_cat_stock->fetch_assoc()) {
+                $category_stock_data['labels'][] = $cat_data['categoria_nome'];
+                $category_stock_data['data'][] = (int)$cat_data['total_quantidade'];
+                $category_stock_data['colors'][] = $bgColors[$i % count($bgColors)];
+                $i++;
+            }
+        }
+        $stmt_cat_stock->close();
+    } else {
+        error_log("Erro ao preparar query de estoque por categoria: " . $mysqli->error);
+    }
+
 } else {
-    // Dummy data
+    // Dummy data ajustado para usar 'quantidade_estoque'
     $summary = ['total_produtos' => 125, 'total_itens' => 2340, 'valor_total' => 150200.75];
-    $produtos_recentes = [['id'=>1, 'sku'=>'SKU001', 'nome'=>'Produto Exemplo A', 'categoria_nome'=>'Eletrônicos', 'quantidade'=>10, 'preco_unitario'=>199.90, 'quantidade_minima'=>5, 'data_cadastro' => '2023-10-26'], ['id'=>2, 'sku'=>'SKU002', 'nome'=>'Produto Exemplo B', 'categoria_nome'=>'Livros', 'quantidade'=>5, 'preco_unitario'=>29.50, 'quantidade_minima'=>3, 'data_cadastro' => '2023-10-25']];
-    $low_stock_items = [['id'=>3, 'sku'=>'SKU003', 'nome'=>'Item Crítico X', 'quantidade'=>2, 'quantidade_minima'=>5, 'categoria_nome'=>'Material Escritório'], ['id'=>4, 'sku'=>'SKU004', 'nome'=>'Item Crítico Y', 'quantidade'=>8, 'quantidade_minima'=>10, 'categoria_nome'=>'Acessórios']];
-    $category_stock_data = ["labels" => ["Eletrônicos","Livros","Roupas","Casa","Escritório"], "data" => [350,120,280,150,90], "colors" => ['rgba(76,1,130,.8)','rgba(108,95,141,.8)','rgba(156,140,185,.8)','rgba(125,60,180,.8)','rgba(26,0,65,.8)']];
+    $produtos_recentes = [
+        ['id' => 'uuid1', 'sku' => 'SKU001', 'nome' => 'Produto Exemplo A', 'categoria_nome' => 'Eletrônicos', 'quantidade_estoque' => 10, 'preco_unitario' => 199.90, 'quantidade_minima' => 5, 'data_cadastro' => '2023-10-26'],
+        ['id' => 'uuid2', 'sku' => 'SKU002', 'nome' => 'Produto Exemplo B', 'categoria_nome' => 'Eletrônicos', 'quantidade_estoque' => 5, 'preco_unitario' => 29.50, 'quantidade_minima' => 3, 'data_cadastro' => '2023-10-25']
+    ];
+    $low_stock_items = [
+        ['id' => 'uuid3', 'sku' => 'SKU003', 'nome' => 'Item Crítico X', 'quantidade_estoque' => 2, 'quantidade_minima' => 5, 'categoria_nome' => 'Eletrônicos'],
+        ['id' => 'uuid4', 'sku' => 'SKU004', 'nome' => 'Item Crítico Y', 'quantidade_estoque' => 8, 'quantidade_minima' => 10, 'categoria_nome' => 'Eletrônicos']
+    ];
+    $category_stock_data = [
+        "labels" => ["Eletrônicos"], // Todos os produtos são eletrônicos
+        "data" => [350],             // Exemplo de soma
+        "colors" => ['rgba(76,1,130,.8)']
+    ];
+    if ($mysqli && $mysqli->connect_errno) {
+        error_log("Falha na conexão com o banco de dados. Usando dados simulados. Erro: " . $mysqli->connect_error);
+    } else if (!$mysqli) {
+        error_log("Variável \$mysqli não definida. Usando dados simulados. Verifique o include de conexao.php.");
+    }
 }
 
 $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'Usuário';
+$softwareName = "Taskflow"; // Definindo o nome do software para o logo
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Taskflow</title>
+    <title>Dashboard - <?= htmlspecialchars($softwareName) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -65,6 +164,10 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
             --taskflow-text-primary: #1f2937; 
             --taskflow-text-secondary: #6b7280; 
             --taskflow-border-color: #e3e6f0; 
+
+            /* Cores para a áurea do logo (roxo da imagem) */
+            --logo-aura-color: #6A0DAD; 
+            --logo-aura-highlight: #9370DB;
         }
         body { background-color: var(--taskflow-body-bg); font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; color: var(--taskflow-text-primary); transition: margin-left .3s ease-in-out }
         .dashboard-container { display: flex; min-height: 100vh }
@@ -78,38 +181,72 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
             transition: width .3s ease-in-out;
         }
         
-        /* LOGO AREA STYLING - SPINNING GEAR */
+        /* --- LOGO AREA DA SIDEBAR MODIFICADO --- */
         .sidebar .logo-area {
-            padding: 1rem 1.5rem; /* Added more horizontal padding */
-            text-align: left; /* Changed from center to left */
+            padding: 0.8rem 1.2rem; /* Ajustado padding */
+            text-align: left; 
             border-bottom: 1px solid rgba(220, 215, 212, 0.1); 
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Changed from center to flex-start */
-            gap: 0.75rem; /* Added gap between icon and text */
+            justify-content: flex-start; 
+            gap: 0.6rem; /* Espaço entre imagem e texto */
+            height: 60px; /* Altura fixa para consistência com o header */
         }
 
-        .sidebar .logo-area .logo-icon-gear {
-            font-size: 2rem; /* Slightly reduced size */
-            color: var(--taskflow-light-lavender);
-            animation: spin 4s linear infinite;
-            display: inline-block;
+        .sidebar .logo-image-wrapper { /* Wrapper da imagem do logo */
+            position: relative;
+            width: 40px; /* Tamanho da imagem */
+            height: 40px;
         }
 
-        .sidebar .logo-area .logo-text-brand { 
-            font-size: 1.6rem; /* Slightly reduced size */
-            font-weight: 700;
-            color: var(--taskflow-white);
-            letter-spacing: 0.5px;
+        .sidebar .logo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%; /* Se a imagem já for redonda, pode remover */
+            position: relative;
+            z-index: 2;
         }
 
-        /* Spinning Animation for Gear */
-        @keyframes spin {
+        .sidebar .logo-image-wrapper::before { /* A áurea */
+            content: '';
+            position: absolute;
+            top: -4px; /* Ajuste para centralizar ( (wrapper_size - img_size - border_size*2) / 2 ) */
+            left: -4px;
+            width: calc(100% + 8px); /* (img_size + padding*2) */
+            height: calc(100% + 8px);
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px var(--logo-aura-color), 0 0 9px 2px var(--logo-aura-highlight);
+            animation: rotateAuraSidebar 10s linear infinite, pulseAuraSidebar 2.5s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes rotateAuraSidebar {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes pulseAuraSidebar {
+            0% {
+                box-shadow: 0 0 5px 1px var(--logo-aura-color), 0 0 8px 2px var(--logo-aura-highlight);
+                opacity: 0.6;
+            }
+            100% {
+                box-shadow: 0 0 8px 2px var(--logo-aura-highlight), 0 0 12px 3px var(--logo-aura-color);
+                opacity: 1;
+            }
+        }
+        /* --- FIM LOGO AREA DA SIDEBAR --- */
 
-        /* Menu item styling - kept as original dark theme */
+
+        .sidebar .logo-area .logo-text-brand { 
+            font-size: 1.5rem; /* Ajustado para caber melhor */
+            font-weight: 700;
+            color: var(--taskflow-white);
+            letter-spacing: 0.5px;
+            line-height: 1; /* Para melhor alinhamento vertical com a imagem */
+        }
+
+
         .sidebar .menu ul { list-style: none; padding: 1.25rem 0; margin:0; }
         .sidebar .menu li a {
             display: flex; align-items: center; padding: 0.9rem 1.75rem; 
@@ -130,10 +267,8 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
             font-weight: 600;
             border-left-color: var(--taskflow-light-gray-beige); 
         }
-
-        /* ... (Rest of the CSS remains IDENTICAL to your previous dashboard.php) ... */
         .main-wrapper { flex-grow: 1; margin-left: 260px; display: flex; flex-direction: column; transition: margin-left .3s ease-in-out; }
-        .header { background-color: var(--taskflow-card-bg); padding: .9rem 1.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--taskflow-border-color); box-shadow: 0 2px 4px rgba(26,0,65,.05); position: sticky; top: 0; z-index: 1020 }
+        .header { background-color: var(--taskflow-card-bg); padding: .9rem 1.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--taskflow-border-color); box-shadow: 0 2px 4px rgba(26,0,65,.05); position: sticky; top: 0; z-index: 1020; height: 60px; /* Altura fixa para consistência com a logo-area */ }
         .header .search-bar { max-width: 450px; flex-grow: 1; }
         .header .search-bar .form-control { border-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-color: var(--taskflow-border-color); font-size: .9rem; padding: .45rem .9rem }
         .header .search-bar .form-control:focus { border-color: var(--taskflow-vibrant-purple); box-shadow: 0 0 0 .2rem rgba(76,1,130,.2) }
@@ -196,10 +331,14 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
-            <div class="logo-area"> 
-                <i class="fas fa-cog logo-icon-gear"></i> 
-                <span class="logo-text-brand">Taskflow</span>
-            </div>
+            <!-- LOGO AREA MODIFICADA -->
+            <a href="index.php" class="logo-area" style="text-decoration: none;">  <!-- Link na área toda -->
+                <div class="logo-image-wrapper">
+                    <img src="img/taskflow_logo.png" alt="<?= htmlspecialchars($softwareName) ?> Logo">
+                </div>
+                <span class="logo-text-brand"><?= htmlspecialchars($softwareName) ?></span>
+            </a>
+            <!-- FIM LOGO AREA MODIFICADA -->
             <nav class="menu">
                 <ul>
                     <li class="active"><a href="index.php"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
@@ -218,7 +357,9 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                 </form>
                 <div class="user-info d-flex align-items-center">
                     <span class="username"><?= $userName ?></span>
-                    <a href="logout.php" class="btn-logout" title="Sair"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                    <a href="../logout.php" class="btn-logout" title="Sair"> <!-- Ajustado o link de logout para a raiz -->
+                        <i class="fas fa-sign-out-alt fa-lg"></i>
+                    </a>
                 </div>
             </header>
             <main>
@@ -230,9 +371,10 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                             <li class="d-flex justify-content-between align-items-center mb-1">
                                 <span>
                                     <strong><?= htmlspecialchars($item['nome']) ?></strong> (SKU: <?= htmlspecialchars($item['sku']) ?>) - 
-                                    Estoque: <span class="fw-bold"><?= number_format($item['quantidade']) ?></span> (Mín: <?= number_format($item['quantidade_minima']) ?>)
+                                    Estoque: <span class="fw-bold"><?= number_format($item['quantidade_estoque'] ?? 0) ?></span>
+                                    (Mín: <?= number_format($item['quantidade_minima'] ?? 0) ?>)
                                 </span>
-                                <a href="editar_produto.php?id=<?= $item['id'] ?>" class="btn btn-xs btn-outline-secondary ms-2" title="Ver Produto">Ver</a>
+                                <a href="editar_produto.php?id=<?= htmlspecialchars($item['id']) ?>" class="btn btn-xs btn-outline-secondary ms-2" title="Ver Produto">Ver</a>
                             </li>
                         <?php endforeach; ?>
                         <?php if (count($low_stock_items) > 3): ?>
@@ -284,13 +426,15 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                                                 <?php foreach($produtos_recentes as $produto): ?>
                                                     <tr>
                                                         <td><?= htmlspecialchars($produto['sku']) ?></td>
-                                                        <td><a href="editar_produto.php?id=<?= $produto['id'] ?>"><?= htmlspecialchars($produto['nome']) ?></a></td>
+                                                        <td><a href="editar_produto.php?id=<?= htmlspecialchars($produto['id']) ?>"><?= htmlspecialchars($produto['nome']) ?></a></td>
                                                         <td><?= htmlspecialchars($produto['categoria_nome'] ?? 'N/A') ?></td>
-                                                        <td class="text-center <?= ($produto['quantidade'] !== null && $produto['quantidade_minima'] !== null && $produto['quantidade'] <= $produto['quantidade_minima']) ? 'low-stock-value' : '' ?>"><?= number_format($produto['quantidade'] ?? 0) ?></td>
+                                                        <td class="text-center <?= ($produto['quantidade_estoque'] !== null && $produto['quantidade_minima'] !== null && $produto['quantidade_estoque'] <= $produto['quantidade_minima'] && $produto['quantidade_minima'] > 0) ? 'low-stock-value' : '' ?>">
+                                                            <?= number_format($produto['quantidade_estoque'] ?? 0) ?>
+                                                        </td>
                                                         <td>R$ <?= number_format($produto['preco_unitario'] ?? 0, 2, ',', '.') ?></td>
                                                         <td class="actions text-center">
-                                                            <a href="editar_produto.php?id=<?= $produto['id'] ?>" class="btn btn-sm btn-outline-primary btn-action" title="Editar"><i class="fas fa-edit"></i></a>
-                                                            <a href="movimentar_produto.php?id=<?= $produto['id'] ?>" class="btn btn-sm btn-outline-success btn-action" title="Movimentar"><i class="fas fa-exchange-alt"></i></a>
+                                                            <a href="editar_produto.php?id=<?= htmlspecialchars($produto['id']) ?>" class="btn btn-sm btn-outline-primary btn-action" title="Editar"><i class="fas fa-edit"></i></a>
+                                                            <a href="movimentar_produto.php?id=<?= htmlspecialchars($produto['id']) ?>" class="btn btn-sm btn-outline-success btn-action" title="Movimentar"><i class="fas fa-exchange-alt"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -331,10 +475,12 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
                                     <?php foreach (array_slice($low_stock_items, 0, 5) as $item): ?>
                                         <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-3">
                                             <div>
-                                                <a href="editar_produto.php?id=<?= $item['id'] ?>" class="text-decoration-none fw-medium"><?= htmlspecialchars($item['nome']) ?></a>
+                                                <a href="editar_produto.php?id=<?= htmlspecialchars($item['id']) ?>" class="text-decoration-none fw-medium"><?= htmlspecialchars($item['nome']) ?></a>
                                                 <small class="d-block text-muted">SKU: <?= htmlspecialchars($item['sku']) ?></small>
                                             </div>
-                                            <span class="badge bg-danger rounded-pill fs-08rem px-2 py-1"><?= number_format($item['quantidade']) ?> / <?= number_format($item['quantidade_minima']) ?></span>
+                                            <span class="badge bg-danger rounded-pill fs-08rem px-2 py-1">
+                                                <?= number_format($item['quantidade_estoque'] ?? 0) ?> / <?= number_format($item['quantidade_minima'] ?? 0) ?>
+                                            </span>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
@@ -354,7 +500,6 @@ $userName = isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_nam
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    // JavaScript remains the same
     document.addEventListener('DOMContentLoaded', function() {
         const categoryLabels = <?= json_encode($category_stock_data['labels'] ?? []); ?>;
         const categoryData = <?= json_encode($category_stock_data['data'] ?? []); ?>;

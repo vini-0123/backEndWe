@@ -1,0 +1,448 @@
+/* --- Variáveis de Cor (Conforme seu fornecimento anterior) --- */
+:root {
+  /* --- Cores principais --- */
+  --accent-color: #5c84b5;
+  --accent-color-hover: #3a5f8a;
+  --dark-blue: #1c2c3f;
+  --medium-blue: #294a70; /* Fundo do form-container */
+  --light-text: #f0f4f8;
+  --gray-text: #7ea0c4;
+  --white: #ffffff; /* Usado para texto em botões de acento, etc. */
+
+  /* --- Cores adicionais --- */
+  --color-border: #4a5c70; /* Borda mais escura para inputs no tema escuro */
+  --color-input-bg: #121e2c; /* Fundo do input um pouco mais escuro que o dark-blue */
+  --color-input-text: var(--light-text);
+  --color-placeholder: var(--gray-text);
+  --color-google: #DB4437;
+  --color-linkedin: #0077B5;
+
+  /* --- Cores de Validação --- */
+  --color-valid: #B0E0FF; /* Azul claro para válido no tema escuro */
+  --color-invalid: #FF7F7F; /* Vermelho claro para inválido no tema escuro */
+  --color-success-bg: var(--accent-color);
+  --color-success-text: var(--dark-blue);
+  --color-danger-bg: #33282a; /* Um tom escuro avermelhado para fundo de erro */
+  --color-danger-text: var(--light-text);
+  --color-danger-border: #721c24;
+
+  /* --- Tipografia --- */
+  --font-primary: 'Roboto', sans-serif;
+  --font-secondary: 'Poppins', sans-serif; /* Para títulos e logo */
+
+  /* --- Tamanhos e espaçamentos --- */
+  --input-padding: 12px 15px; /* Mantido do seu PHP */
+  --container-width: 420px;
+  --form-padding: 35px 40px;
+
+  /* --- Bordas e sombras --- */
+  --radius-sm: 6px; /* Raio para alertas */
+  --radius-md: 16px;
+  --radius-lg: 25px; /* Raio para inputs e botões */
+  --shadow-color: rgba(0, 0, 0, 0.25); /* Sombra mais escura para o tema */
+  --box-shadow-container: 0 5px 20px var(--shadow-color);
+  --accent-color-shadow-focus: rgba(92, 132, 181, 0.35); /* Sombra de foco mais visível */
+}
+
+/* --- Reset Básico & Configurações Globais --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: var(--font-primary);
+    background-color: var(--dark-blue);
+    color: var(--light-text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* --- Screen Layout --- */
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinha ao topo para rolagem se necessário */
+    padding: 40px 20px 60px 20px; /* Aumentado padding vertical */
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* --- Animation Keyframes --- */
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes subtleFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Logo e Títulos Globais --- */
+h1, .logo { /* .logo para o h1 da tela de login/cadastro, h1 para outros títulos */
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    color: var(--white); /* Usando branco puro para destaque */
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeInSlideUp 0.6s ease-out 0.2s forwards;
+    opacity: 0;
+}
+h1 { font-size: 2.5em; } /* Para o 'WorkEase' principal */
+.logo { font-size: 2.5em; } /* Se quiser diferenciar o h1 da tela de login/cadastro */
+
+
+/* --- Back Link --- */
+.back-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1em;
+    z-index: 10;
+    opacity: 0;
+    animation: subtleFadeIn 0.5s ease-out 0.8s forwards;
+    display: flex;
+    align-items: center;
+}
+.back-link:hover {
+    color: var(--accent-color-hover);
+}
+.back-link i {
+     margin-right: 8px;
+}
+
+/* --- Form Container --- */
+.form-container {
+    background-color: var(--medium-blue);
+    padding: var(--form-padding);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--box-shadow-container);
+    width: 100%;
+    max-width: var(--container-width);
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 20px; /* Espaço após o título principal */
+    opacity: 0;
+    animation: fadeInSlideUp 0.6s ease-out 0.5s forwards;
+}
+
+.form-container h2.login-title { /* Especificidade para o título dentro do formulário */
+    font-family: var(--font-secondary);
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--white);
+    font-weight: 500;
+    font-size: 1.8em; /* Um pouco menor que o h1 principal */
+}
+
+/* --- Alert Messages --- */
+.alert-message-container {
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 1px;
+}
+.alert-message {
+    padding: 12px 15px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+    text-align: left; /* Alinhado à esquerda para listas */
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto 15px auto;
+    line-height: 1.4;
+    opacity: 0;
+    animation: subtleFadeIn 0.5s ease-out forwards;
+}
+.alert-message.no-animate {
+    opacity: 1;
+    animation: none;
+}
+.alert-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border: 1px solid var(--accent-color-hover);
+}
+.alert-danger {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+    border: 1px solid var(--color-danger-border);
+}
+.alert-danger a {
+    color: var(--accent-color);
+    font-weight: bold;
+    text-decoration: underline;
+}
+.alert-danger a:hover {
+    color: var(--accent-color-hover);
+}
+.alert-message ul {
+    margin-top: 8px;
+    margin-bottom: 0;
+    padding-left: 20px;
+}
+.alert-message li {
+    margin-bottom: 4px;
+}
+
+
+/* --- Input Fields --- */
+.input-group {
+    margin-bottom: 20px; /* Aumentado um pouco o espaçamento */
+    position: relative;
+    width: 100%;
+    text-align: left; /* Para labels e small text */
+}
+.input-group label { /* Estilo para labels se você adicionar explicitamente */
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--light-text);
+    font-size: 0.9em;
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: var(--input-padding);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-sizing: border-box;
+    font-size: 0.95em;
+    color: var(--color-input-text);
+    background-color: var(--color-input-bg);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.input-group input[type="text"]:focus,
+.input-group input[type="email"]:focus,
+.input-group input[type="password"]:focus {
+    border-color: var(--accent-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--accent-color-shadow-focus);
+}
+.input-group input::placeholder {
+    color: var(--color-placeholder);
+    opacity: 1;
+}
+
+/* --- Password Wrapper & Toggle --- */
+.password-wrapper {
+    position: relative;
+}
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] { /* Para quando o tipo é trocado */
+     padding-right: 45px;
+}
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--gray-text);
+    font-size: 1.1em;
+    line-height: 1;
+    padding: 5px; /* Área de clique maior */
+}
+.toggle-password:hover {
+    color: var(--accent-color);
+}
+
+/* --- Password Policy Display --- */
+.password-policy {
+    font-size: 0.85em;
+    color: var(--gray-text);
+    margin-top: -10px;
+    margin-bottom: 18px; /* Alinhado com input-group margin */
+    padding-left: 10px;
+    text-align: left;
+}
+.password-policy ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+.password-policy li {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+.password-policy li.valid { color: var(--color-valid); }
+.password-policy li.invalid { color: var(--color-invalid); }
+.password-policy li i {
+    margin-right: 8px;
+    font-size: 0.9em;
+    width: 1em; /* Para alinhar ícones */
+    text-align: center;
+}
+
+
+/* --- Buttons --- */
+.btn {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: var(--radius-lg);
+    font-size: 1em;
+    font-weight: 500; /* Era 500 no seu PHP */
+    font-family: var(--font-primary);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 10px;
+}
+.btn:last-of-type {
+     margin-bottom: 0;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--dark-blue); /* Texto escuro para contraste no botão de acento */
+    border-color: var(--accent-color);
+    margin-top: 10px; /* Espaço acima do botão principal */
+}
+.btn-primary:hover {
+    background-color: var(--accent-color-hover);
+    border-color: var(--accent-color-hover);
+    color: var(--dark-blue);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* --- Extra Links & Separator (Login/Cadastro) --- */
+.extra-link {
+    margin-top: 25px;
+    font-size: 0.9em;
+    color: var(--light-text);
+}
+.extra-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.extra-link a:hover {
+    text-decoration: underline;
+    color: var(--accent-color-hover);
+}
+
+.separator {
+    margin: 25px 0 20px 0;
+    color: var(--gray-text);
+    font-size: 0.85em;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.separator::before,
+.separator::after {
+    content: '';
+    flex-grow: 1;
+    border-bottom: 1px solid var(--gray-text);
+    margin: 0 0.8em;
+}
+
+/* --- Social Buttons --- */
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-input-bg); /* Fundo sutil, diferente do botão primário */
+    color: var(--light-text);
+    font-size: 0.95em;
+    font-weight: 500;
+}
+.btn-social:hover {
+    background-color: var(--medium-blue); /* Um pouco mais claro ao passar o mouse */
+    border-color: var(--gray-text);
+    color: var(--white);
+}
+.btn-social i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    width: 1.3em; /* Para garantir alinhamento se os ícones tiverem larguras diferentes */
+    text-align: center;
+}
+.btn-social.google i { color: var(--color-google); }
+.btn-social.linkedin i { color: var(--color-linkedin); }
+
+/* --- Form Options (Lembrar-me, Esqueceu senha) --- */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.85em;
+}
+.remember-me {
+    display: flex;
+    align-items: center;
+    color: var(--gray-text);
+    cursor: pointer;
+}
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--accent-color); /* Estiliza o checkbox moderno */
+}
+.forgot-password {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+    color: var(--accent-color-hover);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 480px) {
+    .screen {
+        padding: 20px 15px 40px 15px;
+    }
+    h1, .logo {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    .form-container {
+        padding: 25px 20px;
+        margin-top: 10px;
+        max-width: 95%;
+        box-shadow: none; /* Sombra pode ser demais em telas pequenas */
+        border: 1px solid var(--medium-blue); /* Borda sutil se remover sombra */
+    }
+    .form-container h2.login-title {
+        font-size: 1.5em;
+    }
+    .back-link {
+        top: 15px;
+        left: 15px;
+    }
+    .btn {
+        font-size: 0.95em;
+        padding: 11px 15px;
+    }
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="password"] {
+        font-size: 0.9em;
+    }
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .forgot-password {
+        margin-top: 10px;
+    }
+}

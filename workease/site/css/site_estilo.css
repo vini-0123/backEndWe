@@ -1,0 +1,330 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+ }
+body {
+    background-color: #5b1e99;
+}
+ .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+header {
+    background-color: #4a1980;
+    padding: 15px 0;
+    color: white;
+}
+h1 {
+    text-align: start;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.logo:hover {
+    color: #e9d25c;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+}
+.menu li {
+    margin-right: 20px;
+}
+.menu a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.menu a:hover {
+    color: #e9d25c;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+.signup-btn {
+    background-color: #e9d25c;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+}
+.signup-btn:hover {
+    background-color: #ffe066;
+    color: #222;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.login-btn:hover {
+    background-color: #fff;
+    color: #4a1980;
+    border-color: #e9d25c;
+}
+
+.hero {
+    background-color: #6d6c6c;
+    padding: 10px 1px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+.slider {
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.slide {
+    display: none;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+.slide.active {
+    display: block;
+    opacity: 1;
+}
+.slide img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+.slide h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+}
+.slider-dots {
+    margin-top: 30px;
+    position: relative;
+    z-index: 3;
+}
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    margin: 0 5px;
+    opacity: 0.5;
+}
+.dot.active {
+    opacity: 1;
+}
+
+.main-feature {
+    background-color: #4a1980;
+    padding: 40px 0;
+    text-align: center;
+    color: white;
+}
+
+.main-feature h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.main-feature p {
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.cta-button {
+    background-color: #e9d25c;
+    color: #333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.benefits {
+    padding: 40px 0;
+    text-align: center;
+    color: white;
+}
+
+.benefits h2 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.features {
+    padding: 80px 0;
+}
+.features h2 {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 90px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background-color: rgba(144, 0, 255, 0.096);
+    padding: 35px 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.feature-item i {
+    font-size: 2.8em;
+    color: #fcfcfc;
+    margin-bottom: 25px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+.feature-item h3 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #fff;
+}
+
+/* Plans */
+.plans {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0 60px;
+}
+
+.plan-card {
+    background-color: #4a1980;
+    color: white;
+    border-radius: 10px;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+
+.plan-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    background: linear-gradient(120deg, #5b1e99 60%, #4a1980 100%);
+    border: 1.5px solid #e9d25c;
+}
+
+.plan-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    transition: color 0.2s;
+}
+
+.plan-card:hover h3 {
+    color: #e9d25c;
+}
+
+.plan-card p {
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: color 0.2s;
+}
+
+.plan-card:hover p {
+    color: #fffbe6;
+}
+
+.secondary-button {
+    background-color: #e9d25c;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.18s;
+}
+
+.secondary-button:hover, .plan-card:hover .secondary-button {
+    background-color: #ffe066;
+    color: #222;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+    transform: scale(1.06);
+}
+footer {
+    background-color: #4a1980;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}

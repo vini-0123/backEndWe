@@ -1,0 +1,17 @@
+{
+    "name": "isaquias/workease",
+    "autoload": {
+        "psr-4": {
+            "Isaquias\\Workease\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Quias",
+            "email": "xboxisaquias@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
+}

@@ -1,13 +1,19 @@
 <?php
 session_start();
 
+// Verificar autenticação
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    // Não deve ser acessado diretamente, mas por segurança
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit;
 }
 
-include_once './factory/conexao.php';
+// Corrigir o caminho do arquivo de conexão
+require_once dirname(dirname(__FILE__)) . '/factory/conexao.php';
+
+// Verificar conexão
+if ($mysqli->connect_error) {
+    die("Erro na conexão: " . $mysqli->connect_error);
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitização e coleta de dados
@@ -16,9 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sku = trim($_POST['sku'] ?? '');
     $descricao = trim($_POST['descricao'] ?? null);
     $preco_unitario = isset($_POST['preco_unitario']) ? (float)$_POST['preco_unitario'] : 0.0;
-    $quantidade = isset($_POST['quantidade']) ? (int)$_POST['quantidade'] : 0;
-    $quantidade_minima = isset($_POST['quantidade_minima']) ? (int)$_POST['quantidade_minima'] : 0;
+    $quantidade_estoque = isset($_POST['quantidade_estoque']) ? (int)$_POST['quantidade_estoque'] : 0;
+    $quantidade_minima = isset($_POST['quantidade_minima']) ? (int)$_POST['quantidade_minima'] : 5;
     $categoria_id = !empty($_POST['categoria_id']) ? (int)$_POST['categoria_id'] : null;
+    $fornecedor_id = !empty($_POST['fornecedor_id']) ? (int)$_POST['fornecedor_id'] : null;
     $ativo = isset($_POST['ativo']) ? 1 : 0;
 
     // Validações básicas
@@ -76,30 +83,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['form_error'] = "Formato de imagem inválido. Use JPG, JPEG, PNG ou GIF.";
             $imagem_destaque_nome = null;
         }
-         if (isset($_SESSION['form_error'])) { // Redireciona se houve erro no upload
+        if (isset($_SESSION['form_error'])) { // Redireciona se houve erro no upload
             if ($produto_id) { header('Location: editar_produto.php?id=' . $produto_id); } else { header('Location: adicionar_produto.php'); }
             exit;
         }
     }
 
-
     if ($produto_id > 0) { // Atualizar produto existente
-        if ($imagem_destaque_nome) {
-            $sql = "UPDATE produtos SET nome=?, sku=?, descricao=?, preco_unitario=?, quantidade=?, quantidade_minima=?, categoria_id=?, ativo=?, imagem_destaque=? WHERE id=?";
-            $types = "sssdiisisi";
-            $params = [$nome, $sku, $descricao, $preco_unitario, $quantidade, $quantidade_minima, $categoria_id, $ativo, $imagem_destaque_nome, $produto_id];
-        } else { // Não atualizar imagem se nenhuma nova foi enviada
-            $sql = "UPDATE produtos SET nome=?, sku=?, descricao=?, preco_unitario=?, quantidade=?, quantidade_minima=?, categoria_id=?, ativo=? WHERE id=?";
-            $types = "sssdiisii";
-            $params = [$nome, $sku, $descricao, $preco_unitario, $quantidade, $quantidade_minima, $categoria_id, $ativo, $produto_id];
-        }
+        $sql = "UPDATE produtos SET 
+            nome = ?, 
+            sku = ?, 
+            descricao = ?, 
+            categoria_id = ?, 
+            preco_unitario = ?, 
+            quantidade_estoque = ?, 
+            quantidade_minima = ?, 
+            fornecedor_id = ?, 
+            ativo = ?
+            WHERE id = ?";
+        $types = "sssidiiiis";
+        $params = [
+            $nome, 
+            $sku, 
+            $descricao, 
+            $categoria_id, 
+            $preco_unitario, 
+            $quantidade_estoque, 
+            $quantidade_minima,
+            $fornecedor_id,
+            $ativo,
+            $produto_id
+        ];
         $acao = "atualizado";
         $redirect_url = 'editar_produto.php?id=' . $produto_id;
 
     } else { // Inserir novo produto
-        $sql = "INSERT INTO produtos (nome, sku, descricao, preco_unitario, quantidade, quantidade_minima, categoria_id, ativo, imagem_destaque, data_cadastro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-        $types = "sssdiisis";
-        $params = [$nome, $sku, $descricao, $preco_unitario, $quantidade, $quantidade_minima, $categoria_id, $ativo, $imagem_destaque_nome];
+        $sql = "INSERT INTO produtos (
+            nome, 
+            sku, 
+            descricao, 
+            categoria_id, 
+            preco_unitario, 
+            quantidade_estoque, 
+            quantidade_minima,
+            fornecedor_id,
+            ativo,
+            data_cadastro
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        $types = "sssidiiii";
+        $params = [
+            $nome, 
+            $sku, 
+            $descricao, 
+            $categoria_id, 
+            $preco_unitario, 
+            $quantidade_estoque, 
+            $quantidade_minima,
+            $fornecedor_id,
+            $ativo
+        ];
         $acao = "cadastrado";
         $redirect_url = 'adicionar_produto.php'; // Ou produtos.php
     }

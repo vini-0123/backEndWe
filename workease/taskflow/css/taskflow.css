@@ -1,0 +1,596 @@
+:root {
+            --dark-blue: #01122E;        /* Richer, deeper dark blue */
+            --medium-blue: #0B4090;     /* More saturated medium blue */
+            --accent-color: #4A90E2;     /* Vivid, bright blue accent */
+            --accent-color-hover: #63A5F2; /* Lighter vivid blue for hover */
+            --light-text: #B0E0FF;       /* Saturated light sky blue text */
+            --gray-text: #88AACC;        /* Clearer blue-gray for secondary text */
+            --white: #B0E0FF;           /* Using the same as light-text for general bright elements */
+            --shadow-color: rgba(1, 18, 46, 0.7); /* Shadow based on new --dark-blue */
+            --primary-font: 'Poppins', sans-serif; /* Keeping font variable consistent */
+        }
+
+        /* --- Reset Básico & Configurações Globais --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             scroll-behavior: smooth; /* Rolagem suave */
+        }
+
+        body {
+            font-family: var(--primary-font);
+            background-color: var(--dark-blue);
+            color: var(--light-text);
+            line-height: 1.7;
+            font-size: 16px; /* Base font size */
+            -webkit-font-smoothing: antialiased; /* Melhora renderização de fontes */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1140px; /* Adjusted from 1170px to match example */
+            margin: 0 auto;
+            padding: 0 25px; /* Adjusted from 20px to match example */
+        }
+
+        h1, h2, h3, h4 { /* Applied to h4 as well */
+            color: var(--white); /* Using the new light blue for headings */
+            font-weight: 700; /* Adjusted from 600 to match example */
+            line-height: 1.3;
+            margin-bottom: 0.75em;
+        }
+
+        h1 { font-size: clamp(2rem, 5vw, 3rem); } /* Responsivo - adjusted from example */
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); } /* Adjusted from example */
+        h3 { font-size: 1.4rem; font-weight: 500; } /* Adjusted from example */
+        h4 { font-size: 1.15rem; font-weight: 500; color: var(--accent-color); margin-bottom: 0.5em;} /* Adjusted h4 to use accent color */
+
+        p {
+            color: var(--gray-text);
+            margin-bottom: 1em; /* Adjusted from 1.2em */
+            font-size: 1rem;
+        }
+         p.lead { /* Para parágrafos de destaque */
+             font-size: 1.15rem;
+             color: var(--light-text);
+             margin-bottom: 1.5em; /* Adjusted from example */
+             max-width: 700px; /* Added max-width from example */
+         }
+         p.section-subtitle { /* Added from example CSS */
+             text-align: center;
+             max-width: 750px;
+             margin-left: auto;
+             margin-right: auto;
+             margin-bottom: 50px;
+             font-size: 1.1rem;
+             color: var(--gray-text);
+         }
+
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color-hover);
+        }
+
+        section {
+            padding: 80px 0; /* Adjusted from 90px to match example */
+        }
+        .text-center { text-align: center; } /* Keep utility class */
+        .mb-small { margin-bottom: 15px !important; } /* Keep utility class */
+        .mb-medium { margin-bottom: 30px !important; } /* Keep utility class */
+
+        /* --- Header --- */
+        header {
+            background-color: rgba(1, 18, 46, 0.85); /* Fundo semi-transparente com novo --dark-blue base */
+            padding: 15px 0; /* Adjusted from 18px */
+            position: sticky; /* Fixa o header no topo */
+            top: 0;
+            z-index: 1000; /* Increased z-index slightly */
+            width: 100%;
+            backdrop-filter: blur(10px); /* Efeito de vidro fosco */
+            box-shadow: 0 2px 15px var(--shadow-color);
+            transition: background-color 0.3s ease; /* Added transition from example */
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em; /* Adjusted from 1.9em */
+            font-weight: bold; /* Kept bold as per example */
+            color: var(--white);
+            text-decoration: none;
+             letter-spacing: -1px; /* Added from example */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center; /* Alinhar itens verticalmente */
+        }
+
+        nav ul li {
+            margin-left: 25px; /* Adjusted from 30px */
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none; /* Ensured */
+            font-size: 0.95em; /* Adjusted from 0.9rem */
+            padding: 8px 0;
+            position: relative;
+             transition: color 0.3s ease;
+             font-weight: 500; /* Added font-weight */
+             /* Removed uppercase and letter-spacing from original PHP file's CSS */
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 4px;
+            right: 0;
+            background: var(--accent-color); /* Use new accent color */
+            transition: width 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: var(--white);
+        }
+         nav ul li a:hover::after, nav ul li a.active::after { /* Added active state */
+            width: 100%;
+            left: 0;
+            background-color: var(--accent-color); /* Use new accent color */
+        }
+         nav ul li a.active { /* Added active state */
+            color: var(--white);
+         }
+
+        /* --- User Actions Section in Header --- */
+        .user-actions {
+            display: flex; /* Para alinhar itens do user-actions */
+            align-items: center; /* Alinhar verticalmente */
+        }
+        /* General style for links in user-actions */
+        .user-actions a, .user-actions .user-greeting {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 15px; /* Ajustado para consistência */
+            font-size: 0.95em; /* Matched nav link size */
+             padding: 8px 15px; /* Adjusted padding */
+             border: 1px solid var(--gray-text);
+             border-radius: 5px;
+             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+             font-weight: 500; /* Added font-weight */
+        }
+         /* Hover for general links */
+         .user-actions a:hover {
+             background-color: var(--medium-blue);
+             border-color: var(--light-text);
+             color: var(--white);
+         }
+         /* Specific style for Login/Primary action button */
+         .user-actions a.login-btn { /* Renamed from btn-login for clarity */
+             border-color: var(--accent-color);
+             color: var(--accent-color);
+         }
+         .user-actions a.login-btn:hover {
+             background-color: var(--accent-color);
+             color: var(--dark-blue); /* Text on accent background should be dark for contrast */
+             border-color: var(--accent-color);
+         }
+         /* Style for user greeting text */
+         .user-actions .user-greeting {
+            border: none; /* Remover borda da saudação */
+            padding-right: 0; /* Remover padding extra à direita da saudação */
+            color: var(--white); /* Destacar nome do usuário */
+            font-weight: 500;
+            margin-left: 15px; /* Keep consistent margin */
+         }
+         /* Style for Logout button */
+         .user-actions a.logout-btn { /* Estilo específico para o botão de Sair */
+            border-color: var(--gray-text);
+            color: var(--gray-text);
+         }
+         .user-actions a.logout-btn:hover {
+            background-color: var(--accent-color-hover);
+            color: var(--dark-blue); /* Text on accent background */
+            border-color: var(--accent-color-hover);
+         }
+        /* Specific Style for Settings Link (if you add one) */
+        .user-actions a.settings-link {
+            padding: 5px 10px;
+            font-size: 0.85em;
+            border: 1px solid var(--gray-text);
+            background-color: transparent;
+            color: var(--gray-text);
+            border-radius: 15px; /* More rounded */
+            margin-left: 10px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        .user-actions a.settings-link:hover {
+            background-color: var(--medium-blue);
+            border-color: var(--accent-color);
+            color: var(--accent-color-hover);
+        }
+        /* Adjustments for spacing when multiple items exist */
+        .user-actions .user-greeting {
+             margin-right: 5px; /* Space between greeting and settings/logout */
+        }
+        .user-actions .settings-link + .logout-btn {
+            margin-left: 10px; /* Space between settings and logout */
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 100px 0 60px; /* Adjusted padding */
+            text-align: center; /* Ensured text align */
+            /* background: linear-gradient(rgba(1, 18, 46, 0.1), var(--dark-blue)); /* Simplified gradient */
+            /* Using image background from original PHP CSS */
+            background-image: linear-gradient(rgba(1, 18, 46, 0.9), rgba(1, 18, 46, 0.95)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29tcHV0ZXIlMjBkYXRhfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keep parallax */
+        }
+        /* Removed hero .container rule as text-align is on .hero */
+        .hero h1 {
+            color: var(--white); /* Ensured color */
+            margin-bottom: 15px; /* Adjusted margin */
+        }
+        .hero p.lead { /* Styling lead paragraph in hero */
+            font-size: 1.2em; /* Adjusted size */
+            color: var(--light-text); /* Use new light text */
+            max-width: 750px; /* Consistent max-width */
+            margin: 0 auto; /* Centering */
+            /* Removed specific color from original PHP CSS as lead class handles it */
+        }
+
+        /* --- Call to Action Button (General) --- */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-blue) !important; /* Added !important to ensure text visibility */
+            padding: 18px 45px;
+            font-size: 1.15em;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color-hover);
+            color: var(--dark-blue) !important; /* Added !important to ensure text visibility on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .cta-button i {
+            margin-right: 8px;
+            color: var(--dark-blue) !important; /* Added !important to ensure icon visibility */
+        }
+
+        .cta-button:hover i {
+            color: var(--dark-blue) !important; /* Added !important to ensure icon visibility on hover */
+        }
+
+
+        /* --- Section: Services (TaskFlow) / Features Grid --- */
+        #servicos {
+             /* background-color: var(--medium-blue); */ /* Optional: could make this section medium-blue */
+             /* Keeping dark blue background from original context */
+              background-color: var(--dark-blue);
+        }
+        .services-intro { margin-bottom: 60px; text-align: center; } /* Keep intro styling */
+
+        /* --- Features Section General --- */
+         .features h2, #servicos h2, #sistema-estoque h2 { /* Target section titles */
+             text-align: center;
+             margin-bottom: 60px; /* Increased margin bottom */
+             color: var(--white);
+         }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax */
+            gap: 90px; /* Adjusted gap */
+            max-width: 1000px; /* Added max-width from example */
+            margin: 0 auto; /* Center grid */
+        }
+
+        .feature-item {
+            background-color: var(--medium-blue); /* Use new medium blue for cards */
+            padding: 35px 30px;
+            border-radius: 10px; /* Adjusted radius */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px var(--shadow-color); /* Use new shadow color */
+        }
+        .feature-item:hover {
+            transform: translateY(-5px); /* Adjusted transform */
+            box-shadow: 0 8px 30px var(--shadow-color); /* Use new shadow color, adjusted spread */
+        }
+
+        /* Adjusted icon container style */
+        .feature-item .icon-container, .feature-item i.fa-direct { /* Target icon container OR direct icon */
+            font-size: 2.8em; /* Adjusted size */
+            color: var(--accent-color); /* New accent color */
+            margin-bottom: 25px;
+            width: 60px; /* Adjusted size */
+            height: 60px; /* Adjusted size */
+            line-height: 60px; /* Match height */
+            text-align: center;
+            /* Removed background and border-radius for direct icon case */
+        }
+        /* Style specifically for the container if used */
+         .feature-item .icon-container {
+             background-color: rgba(74, 144, 226, 0.1); /* Subtle background using new accent RGBa */
+             border-radius: 50%;
+             display: flex; /* Use flex to center icon inside */
+             align-items: center;
+             justify-content: center;
+         }
+
+
+        .feature-item h3 {
+            font-size: 1.3em; /* Adjusted size */
+            margin-bottom: 10px;
+             font-weight: 500; /* Adjusted weight */
+            color: var(--white);
+        }
+        .feature-item p {
+            font-size: 0.95rem; /* Keep size */
+            color: var(--light-text); /* Lighter text on medium blue cards */
+            line-height: 1.6; /* Keep line-height */
+         }
+
+
+        /* --- Section: Our Stock System --- */
+        #sistema-estoque {
+             background-color: var(--dark-blue); /* Keeping dark background */
+             padding: 80px 0; /* Consistent padding */
+        }
+        #sistema-estoque h2 { margin-bottom: 40px; } /* Adjusted title margin */
+
+        .stock-system-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .stock-system-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px var(--shadow-color); /* Use new shadow color */
+            object-fit: cover;
+            aspect-ratio: 16/10;
+        }
+        .stock-system-details h2 { /* Title within the details section */
+             margin-bottom: 20px;
+             text-align: left; /* Align left, not center */
+         }
+        .stock-system-details h4 {
+             color: var(--accent-color); /* Use new accent color for this heading */
+             margin-bottom: 15px; /* Adjust spacing */
+        }
+        .stock-system-details p.lead {
+             margin-bottom: 25px;
+             font-size: 1.05rem; /* Slightly smaller lead */
+             color: var(--light-text); /* Use new light text */
+        }
+        .stock-system-details ul { list-style: none; padding-left: 0; margin-bottom: 30px; }
+        .stock-system-details ul li {
+            font-size: 1rem; color: var(--light-text); margin-bottom: 12px;
+            display: flex; align-items: flex-start;
+        }
+        .stock-system-details ul li i {
+            color: var(--accent-color); /* Use new accent color for icons */
+            margin-right: 12px; font-size: 1.1rem;
+            margin-top: 4px;
+        }
+        /* Adjust CTA button margin specifically here */
+        .stock-system-details .cta-button { margin-top: 10px; }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--medium-blue); /* Use new medium blue */
+            padding: 50px 0; /* Adjusted padding */
+            margin-top: 80px; /* Keep margin-top */
+            border-top: 3px solid var(--accent-color); /* Use new accent color, adjusted thickness */
+            text-align: center; /* Center align footer content */
+        }
+        footer .container { text-align: center; } /* Ensure container content is centered */
+        footer .footer-logo { /* Style the logo link if present */
+             font-size: 1.7em;
+             font-weight: 700;
+             color: var(--white);
+             margin-bottom: 20px;
+             display: block;
+        }
+        footer p {
+            margin-bottom: 8px; /* Adjusted spacing */
+            font-size: 0.95em; /* Adjusted size */
+            color: var(--gray-text);
+        }
+         /* Style for first paragraph */
+         footer p:first-of-type { /* Target first p after logo */
+            font-weight: 500;
+             color: var(--light-text); /* Use new light text */
+             margin-bottom: 15px;
+             font-size: 1.1em; /* Make it slightly larger */
+         }
+          /* Style for contact info paragraph */
+         footer p.contact-info i { margin-right: 8px; } /* Keep icon margin */
+
+         /* Links within the footer */
+         footer a {
+             color: var(--light-text); /* Use new light text for links */
+         }
+         footer a:hover {
+             color: var(--accent-color); /* Hover with new accent */
+         }
+         /* Social icons */
+        footer .social-icons { margin-top: 20px; margin-bottom: 25px; }
+        footer .social-icons a {
+            color: var(--gray-text); /* Use new gray */
+            font-size: 1.5rem; margin: 0 12px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        footer .social-icons a:hover {
+             color: var(--accent-color); /* Hover with new accent */
+             transform: translateY(-3px);
+        }
+         /* Copyright text */
+         footer .copyright {
+             font-size: 0.9rem; /* Adjusted size */
+             color: var(--gray-text);
+             margin-top: 30px;
+             border-top: 1px solid var(--dark-blue); /* Use new dark blue for divider */
+             padding-top: 25px;
+         }
+
+        /* --- Botão Flutuante "Voltar ao Topo" --- */
+        #backToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            border: none;
+            outline: none;
+            background-color: var(--accent-color); /* Use new accent */
+            color: var(--dark-blue); /* Dark text on accent */
+            cursor: pointer;
+            padding: 0;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.4); /* Shadow from new accent color */
+            transition: background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0.8;
+             line-height: 50px; /* Vertically center icon */
+             text-align: center; /* Horizontally center icon */
+        }
+
+        #backToTopBtn:hover {
+            background-color: var(--accent-color-hover); /* Use new accent hover */
+            opacity: 1;
+            /* Removed transform scale from original PHP CSS */
+        }
+
+
+        /* --- Ajustes Responsivos --- */
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+             header .container {
+                 /* Allow wrap but prioritize row */
+                 flex-wrap: wrap;
+                 justify-content: space-between;
+             }
+             nav {
+                 flex-basis: 100%; /* Make nav take full width on wrap */
+                 margin-top: 10px;
+                 order: 3; /* Move nav below logo and actions */
+                 justify-content: center; /* Center nav items */
+             }
+             nav ul { justify-content: center; } /* Ensure centering */
+             .user-actions {
+                  margin-top: 0; /* Remove top margin when wrapped */
+                  margin-left: auto; /* Push actions to the right */
+                  order: 2; /* Place actions after logo */
+             }
+            .stock-system-content { grid-template-columns: 1fr; text-align: center; }
+            .stock-system-image { margin-bottom: 40px; margin-left: auto; margin-right: auto; display: block; }
+            .stock-system-details { text-align: center; }
+            .stock-system-details h2, .stock-system-details h4 { text-align: center;}
+            .stock-system-details ul { display: inline-block; text-align: left; }
+            .hero p.lead { max-width: 90%; }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+             nav {
+                 margin-top: 15px;
+                 flex-basis: auto; /* Reset flex-basis */
+                 order: 2; /* Nav after logo */
+                 width: 100%; /* Ensure full width */
+             }
+             nav ul {
+                 justify-content: center;
+                 padding-left: 0;
+                 flex-wrap: wrap;
+             }
+             nav ul li {
+                 margin: 5px 12px;
+             }
+             .user-actions {
+                 margin-top: 15px;
+                 margin-left: 0; /* Reset margin */
+                 order: 3; /* Actions last */
+                 justify-content: center; /* Center buttons */
+             }
+             section {
+                 padding: 60px 0;
+             }
+            /* Removed .about-content rule as it's not used */
+             .features-grid {
+                 grid-template-columns: 1fr;
+             }
+             #backToTopBtn {
+                 width: 45px;
+                 height: 45px;
+                 font-size: 1.3rem;
+                 line-height: 45px;
+                 bottom: 20px;
+                 right: 20px;
+             }
+             p.section-subtitle { margin-bottom: 40px; font-size: 1rem; }
+             h1 { font-size: 2rem; } /* Match example */
+             h2 { font-size: 1.8rem; } /* Match example */
+             .cta-button { padding: 14px 35px; font-size: 1rem; } /* Match example */
+             .feature-item { padding: 30px 25px; } /* Match example */
+
+        }
+
+         @media (max-width: 480px) {
+             nav ul li { margin: 5px 8px; }
+             nav ul li a { font-size: 0.9em; } /* Match example */
+             .user-actions a, .user-actions .user-greeting { font-size: 0.9em; padding: 6px 10px;} /* Match example */
+             h1 { font-size: 2rem; } /* Keep from 768px */
+             h2 { font-size: 1.8rem; } /* Keep from 768px */
+             .cta-button { padding: 15px 35px; font-size: 1.1em;} /* Match example */
+             /* Removed .about-content rule */
+             footer { padding: 40px 0; } /* Match example */
+             footer .social-icons a { font-size: 1.3rem; margin: 0 10px;} /* Match example */
+         }

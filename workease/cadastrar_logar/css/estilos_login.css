@@ -1,0 +1,372 @@
+/* --- Variáveis de Cor --- */
+:root {
+  /* --- Cores principais --- */
+  --accent-color: #5c84b5;
+  --accent-color-hover: #3a5f8a;
+  --dark-blue: #1c2c3f;
+  --medium-blue: #294a70;
+  --light-text: #f0f4f8;
+  --gray-text: #7ea0c4;
+  --white: #ffffff;
+
+  /* --- Cores adicionais --- */
+  --color-border: #ccc;
+  --color-checkbox: #3b5998;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-placeholder: #7ea0c4;
+  --color-google: #DB4437;
+  --color-linkedin: #0077B5;
+
+  /* --- Tipografia --- */
+  --font-primary: 'Roboto', sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
+
+  /* --- Tamanhos e espaçamentos --- */
+  --input-padding: 14px 20px;
+  --container-width: 420px;
+  --form-padding: 35px 40px;
+
+  /* --- Bordas e sombras --- */
+  --radius-sm: 3px;
+  --radius-md: 16px;
+  --radius-lg: 25px;
+  --box-shadow-inner: inset 0 1px 3px var(--color-shadow);
+  --box-shadow-container: 0 4px 15px var(--color-shadow);
+
+  /* --- Gradiente de fundo --- */
+  --background: linear-gradient(135deg, #5c84b5 0%, #2b4a75 100%); /* Gradient Background */
+
+  /* --- Tempos de animação --- */
+  --fade-delay-base: 0.1s;
+
+  /* --- Foco e interações --- */
+  --accent-color-shadow-focus: rgba(92, 132, 181, 0.25);
+}
+
+/* --- Base & Screen --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--dark-blue); 
+    color: var(--light-text);
+    overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+}
+
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    padding-top: 0.1vh; /* Minimal top padding, animations position elements */
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* --- Animation Keyframes --- */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes subtleFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Links & Logo --- */
+.back-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.1em;
+    z-index: 10;
+    opacity: 0;
+    animation: subtleFadeIn 0.5s ease-out 0.8s forwards;
+}
+.back-link:hover {
+    color: var(--accent-color-hover);
+}
+.back-link i {
+     margin-right: 5px;
+}
+
+.logo {
+    margin-bottom: 30px;
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 2.5em;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInSlideUp 0.6s ease-out 0.2s forwards;
+}
+
+h1 {
+    margin-top: 150px;
+    font-size: 2.5em;
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInSlideUp 0.6s ease-out 0.4s forwards;
+}
+
+/* --- Form & Container --- */
+.form-container {
+    background-color: var(--medium-blue);
+    padding: 35px 40px;
+    border-radius: 25px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 0;
+    opacity: 0;
+    animation: fadeInSlideUp 0.6s ease-out 0.5s forwards;
+}
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1.6em;
+}
+
+/* --- Alert Messages --- */
+.alert-message-container {
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 1px;
+}
+.alert-message {
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    line-height: 1.4;
+    opacity: 0;
+    animation: subtleFadeIn 0.5s ease-out forwards;
+}
+.alert-message.no-animate {
+    opacity: 1;
+    animation: none;
+}
+.alert-success {
+    background-color: var(--accent-color);
+    color: var(--dark-blue);
+    border: 1px solid var(--accent-color-hover);
+}
+.alert-danger {
+    background-color: var(--dark-blue);
+    color: var(--light-text);
+    border: 1px solid var(--gray-text);
+}
+.alert-danger a {
+     color: var(--accent-color);
+     font-weight: bold;
+     text-decoration: underline;
+}
+.alert-danger a:hover {
+     color: var(--accent-color-hover);
+}
+
+/* --- Input Fields --- */
+.input-group {
+    margin-bottom: 18px;
+    position: relative;
+    width: 100%;
+}
+.input-group input { /* General input styling */
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--gray-text);
+    border-radius: 25px;
+    box-sizing: border-box;
+    font-size: 0.95em;
+    color: var(--light-text);
+    background-color: var(--dark-blue);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.input-group input:focus {
+    border-color: var(--accent-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--accent-color-shadow-focus);
+}
+.input-group input::placeholder {
+    color: var(--gray-text);
+    opacity: 1;
+}
+
+/* --- Password Toggle --- */
+.password-wrapper { /* This class is on the div containing password input and toggle */
+    position: relative;
+}
+.password-wrapper input { /* Specifically target password inputs if needed, or use the general .input-group input */
+     padding-right: 45px; /* Make space for the icon */
+}
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--gray-text);
+    font-size: 1.1em;
+    line-height: 1;
+}
+.toggle-password:hover {
+    color: var(--accent-color);
+}
+
+.forgot-password {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+}
+
+.forgot-password:hover {
+    color: var(--accent-color-hover);
+    text-decoration: underline;
+}
+
+/* --- Buttons --- */
+.btn {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+     margin-bottom: 10px;
+}
+.btn:last-of-type {
+     margin-bottom: 0;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--dark-blue);
+    border-color: var(--accent-color);
+    margin-top: 5px;
+}
+.btn-primary:hover {
+    background-color: var(--accent-color-hover);
+    border-color: var(--accent-color-hover);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+/* --- Extra Links & Separator --- */
+.extra-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--light-text);
+}
+.extra-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.extra-link a:hover {
+    text-decoration: underline;
+    color: var(--accent-color-hover);
+}
+
+.separator {
+    margin: 25px 0 20px 0;
+    color: var(--gray-text);
+    font-size: 0.85em;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.separator::before,
+.separator::after {
+    content: '';
+    flex-grow: 1;
+    border-bottom: 1px solid var(--gray-text);
+    margin: 0 0.5em;
+}
+
+/* --- Social Buttons --- */
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gray-text);
+    background-color: var(--dark-blue);
+    color: var(--light-text);
+     font-size: 0.95em;
+}
+.btn-social:hover {
+    background-color: var(--accent-color);       /* Changed from #06275A */
+    color: var(--dark-blue);                     /* Changed from #fff - for contrast on accent bg */
+    border-color: var(--dark-blue);     /* Changed from #021124 */
+    box-shadow: 0 2px 5px var(--shadow-color);   /* Updated shadow */
+}
+.btn-social i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    width: 1.3em;
+    text-align: center;
+}
+.btn-social.google i { color: #DB4437; }
+.btn-social.linkedin i { color: #0A66C2; }
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 25px 20px;
+        max-width: 95%;
+        box-shadow: none;
+        border-radius: 25px;
+        border: 1px solid var(--gray-text);
+    }
+    .screen {
+        padding-top: 30px;
+    }
+    .logo {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+     .form-container h2 {
+        font-size: 1.4em;
+    }
+     .back-link {
+        top: 15px;
+        left: 15px;
+    }
+     .btn { font-size: 0.95em; padding: 11px 15px;}
+     .input-group input { font-size: 0.9em; }
+}
+
+/* --- Login Title --- */
+.login-title {
+    color: #ffffff;
+}
